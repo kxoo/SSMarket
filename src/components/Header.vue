@@ -8,9 +8,14 @@
         background-color="#292525"
         text-color="#fff"
         active-text-color="#ffd04b">
-        <el-menu-item class="logo" index = 'home'><span><img src="../assets/logo.png" alt="" style="margin: -10px 0 0 -10px"></span> sportShop</el-menu-item>
+        <el-menu-item class="logo" index = 'home'>
+          <span><img src="../assets/logo.png" alt="" style="margin: -10px 0 0 -10px"></span>
+          sportShop
+          </el-menu-item>
         <el-menu-item class="whitespace" index = '0'></el-menu-item>
-        <el-menu-item index='1'><el-input v-model="input" placeholder="搜索商品"></el-input></el-menu-item>
+        <el-menu-item index='1'>
+          <el-input v-model="input" placeholder="搜索商品"></el-input>
+        </el-menu-item>
         <el-menu-item index="2">我的订单</el-menu-item>
         <el-menu-item index="3">消息中心</el-menu-item>
         <el-menu-item index="4">管理</el-menu-item>
@@ -70,4 +75,3 @@ export default {
 .space
   width: 10%
 </style>
-

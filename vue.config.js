@@ -5,6 +5,18 @@ function resolve(dir) {
 }
 
 module.exports = {
+  devServer: {
+    proxy: {
+      '/goods': {
+        target: 'http://localhost:3000',
+        ws: true,
+        changeOrigin: true
+      },
+      '/foo': {
+        target: '<other_url>'
+      }
+    }
+  },
   chainWebpack: config => {
     config.plugin('define').tap(args => {
       const argv = process.argv

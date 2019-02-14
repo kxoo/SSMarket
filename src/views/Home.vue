@@ -4,9 +4,15 @@
     <div class="main">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><router-link to=""><img src="../../static/img/homeOne.jpg" alt=""></router-link></div>
-          <div class="swiper-slide"><router-link to=""><img src="../../static/img/homeTwo.jpg" alt=""></router-link></div>
-          <div class="swiper-slide"><router-link to=""><img src="../../static/img/homeThree.jpg" alt=""></router-link></div>
+          <div class="swiper-slide">
+            <router-link to="/goods"><img src="../../static/img/homeOne.jpg" alt=""></router-link>
+          </div>
+          <div class="swiper-slide">
+            <router-link to="/goods"><img src="../../static/img/homeTwo.jpg" alt=""></router-link>
+          </div>
+          <div class="swiper-slide">
+            <router-link to="/goods"><img src="../../static/img/homeThree.jpg" alt=""></router-link>
+          </div>
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
@@ -16,7 +22,7 @@
       </div>
     </div>
     <el-row :gutter="12">
-      <el-col :span="8" v-for="(o, index) in 3" :key="o">
+      <el-col :span="8" v-for="(o) in 3" :key="o">
         <el-card :body-style="{ padding: '0px' }">
           <img src="" class="image">
           <div style="padding: 14px;">
@@ -50,6 +56,7 @@ export default {
     NavFooter,
   },
   mounted: () => {
+    // eslint-disable-next-line
     new Swiper('.swiper-container', {
       loop: true,
       spaceBetween: 30,
