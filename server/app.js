@@ -20,10 +20,29 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  if (req.cookies.userId) {
+    next()
+  } else {
+    if(req.originalUrl == '/users/login' || 
+    req.originalUrl == '/users/logout' ||
+    req.path == 'users/register' ||
+    req.path == "goods/view"
+    ) {
+      next()
+    } else {
+      res.json({
+        status: '1001',
+        msg: '当前未登陆',
+        result: ''
+      })
+    }
+  }
+})
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/goods', goodsRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

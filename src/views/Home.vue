@@ -1,17 +1,16 @@
 <template>
   <div>
-    <nav-header></nav-header>
     <div class="main">
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <router-link to="/goods"><img src="../../static/img/homeOne.jpg" alt=""></router-link>
+            <router-link to="/list"><img src="../../static/img/homeOne.jpg" alt=""></router-link>
           </div>
           <div class="swiper-slide">
-            <router-link to="/goods"><img src="../../static/img/homeTwo.jpg" alt=""></router-link>
+            <router-link to="/list"><img src="../../static/img/homeTwo.jpg" alt=""></router-link>
           </div>
           <div class="swiper-slide">
-            <router-link to="/goods"><img src="../../static/img/homeThree.jpg" alt=""></router-link>
+            <router-link to="/list"><img src="../../static/img/homeThree.jpg" alt=""></router-link>
           </div>
         </div>
         <!-- Add Pagination -->
@@ -42,7 +41,6 @@
 <script>
 // import axios from 'axios';
 import Swiper from 'swiper';
-import NavHeader from '@/components/Header.vue';
 import NavFooter from '@/components/Footer.vue';
 
 export default {
@@ -52,7 +50,6 @@ export default {
     };
   },
   components: {
-    NavHeader,
     NavFooter,
   },
   mounted: () => {
@@ -98,6 +95,7 @@ export default {
 .swiper-container
   width 100%
   height 100%
+  text-align center
 
 .swiper-slide
   text-align center
