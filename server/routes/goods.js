@@ -20,10 +20,7 @@ mongoose.connection.on("disconnected", function () {
 
 /* GET users listing. */
 router.get('/view', function (req, res, next) {
-  // let page = parseInt(req.param('page'))
   let page = Number(req.query.page);
-  // let priceMin = Number(req.query.priceMin)
-  // let priceMax = Number(req.query.priceMax)
   let pageSize = Number(req.query.pageSize);
   let sort = req.query.sort;
   
@@ -55,20 +52,16 @@ router.get('/view', function (req, res, next) {
       })
     }
   })
-  // res.send('respond with goods');
 });
 
 router.post("/addCart", function(req, res, next) {
   let userId = '100000077';
-  console.log(req.body)
   let productId = req.body.productId;
-  // let User = require('../models/user')
-console.log(1)
   User.findOne({ userId: userId })
   .then((UserDoc) => {
     let goodsItem = '';
     if(!UserDoc) {
-      return Promise.reject()
+      return Promise.reject();
     } 
     UserDoc.cartList.forEach((item) => {
       if (item.productId === productId) {
@@ -81,26 +74,18 @@ console.log(1)
           productId: productId
       })
       .then((res) => {
-        // goodsItem = doc
-        let doc = res
-        Reflect.set(doc._doc, 'productNum', 1)
-        Reflect.set(doc._doc, 'checked', 1)
-        console.log(doc._doc)
-        return doc
-        // return UserDoc.cartList.push(res);
-        // console.log(goodsItem, doc.checked,doc)
+        let doc = res;
+        Reflect.set(doc._doc, 'productNum', 1);
+        Reflect.set(doc._doc, 'checked', 1);
+        console.log(doc._doc);
+        return doc;
       })
       .then((res) => {
-        // res.productNum = 1;
-        // res.checked = 1;
-        
-
-        console.log(res)
-        UserDoc.cartList.push(res)
-        UserDoc.save()
+        UserDoc.cartList.push(res);
+        UserDoc.save();
       })
     } else {
-      UserDoc.save()
+      UserDoc.save();
     }
   })
   .then(() => {
@@ -109,14 +94,12 @@ console.log(1)
       msg: '',
       result: 'succeed'
     })
-    return Promise.resolve('succeed')
   })
   .catch(e => {
     res.json({
       status: '1',
       msg: e
     })
-    console.log(e)
   }) 
 })
 

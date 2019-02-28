@@ -24,10 +24,11 @@ app.use(function (req, res, next) {
   if (req.cookies.userId) {
     next()
   } else {
+    console.log(req.path)
     if(req.originalUrl == '/users/login' || 
     req.originalUrl == '/users/logout' ||
-    req.path == 'users/register' ||
-    req.path == "goods/view"
+    // req.path == 'users/register' ||
+    req.path == "/goods/view"
     ) {
       next()
     } else {
@@ -41,8 +42,8 @@ app.use(function (req, res, next) {
 })
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/goods', goodsRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

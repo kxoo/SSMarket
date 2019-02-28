@@ -17,7 +17,7 @@ module.exports = {
         target: 'http://localhost:3000',
         ws: true,
         changeOrigin: false,
-      }
+      },
     },
   },
   chainWebpack: (config) => {

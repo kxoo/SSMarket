@@ -23,7 +23,6 @@ router.post("/login", (req, res, next) => {
         path: '/',
         maxAge: 1000 * 60 * 60
       });
-      // req.session.user = doc;
       res.json({
         status: '0',
         msg: '',
@@ -68,5 +67,26 @@ router.post("/checkLogin", function(req, res, next) {
     })
   }
 })
+
+// 查询购物车
+router.get("/cartList", function(req, res, next) {
+  var userId = req.cookies.userId;
+  console.log(2)
+  User.findOne({userId : userId})
+  .then(res => {
+    res.json({
+      status: '0',
+      msg: '',
+      result: res.cartList
+    })
+  })
+  .catch(e => {
+    res.json({
+      status: '1',
+      msg: e
+    })
+  })
+})
+
 
 module.exports = router;

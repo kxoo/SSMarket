@@ -83,10 +83,11 @@ export default {
 
       axios.get('/goods/view', {
         params: param,
-      }).then((res) => {
-        this.goodList = (res.data.result.list);
-        console.log(this.goodList);
-      });
+      })
+        .then((res) => {
+          this.goodList = (res.data.result.list);
+          console.log(res);
+        });
     },
     sortGoods() {
       this.sortFlag = !this.sortFlag;
