@@ -4,13 +4,13 @@
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <router-link to="/list"><img src="../../static/img/homeOne.jpg" alt=""></router-link>
+            <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperOne.jpg" alt=""></router-link>
           </div>
           <div class="swiper-slide">
-            <router-link to="/list"><img src="../../static/img/homeTwo.jpg" alt=""></router-link>
+            <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperTwo.jpg" alt=""></router-link>
           </div>
           <div class="swiper-slide">
-            <router-link to="/list"><img src="../../static/img/homeThree.jpg" alt=""></router-link>
+            <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperThree.jpg" alt=""></router-link>
           </div>
         </div>
         <!-- Add Pagination -->
@@ -20,37 +20,54 @@
         <div class="swiper-button-prev"></div>
       </div>
     </div>
-    <el-row :gutter="12">
-      <el-col :span="8" v-for="(o) in 3" :key="o">
-        <el-card :body-style="{ padding: '0px' }">
-          <img src="" class="image">
-          <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
-              <time class="time">{{ currentDate }}</time>
-              <el-button type="text" class="button">操作按钮</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <nav-footer></nav-footer>
+    <item v-bind:goodList="goodList" ></item>
   </div>
 </template>
 
 <script>
 // import axios from 'axios';
 import Swiper from 'swiper';
-import NavFooter from '@/components/Footer.vue';
+import Item from '@/components/Item.vue';
 
 export default {
   data() {
     return {
-      goodList: ['ss', 'dd'],
+      goodList: [
+        {
+          title: '356722',
+          price: '539',
+          img: require('../assets/static/img/card_0.jpg'),
+        },
+        {
+          title: '356741',
+          price: '499',
+          img: require('../assets/static/img/card_1.jpg'),
+        },
+        {
+          title: '359863',
+          price: '259',
+          img: require('../assets/static/img/card_2.jpg'),
+        },
+        {
+          title: '367980',
+          price: '869',
+          img: require('../assets/static/img/card_3.jpg'),
+        },
+        {
+          title: '367046',
+          price: '869',
+          img: require('../assets/static/img/card_4.jpg'),
+        },
+        {
+          title: '367811',
+          price: '699',
+          img: require('../assets/static/img/card_5.jpg'),
+        },
+      ],
     };
   },
   components: {
-    NavFooter,
+    Item,
   },
   mounted: () => {
     // eslint-disable-next-line
@@ -98,9 +115,14 @@ export default {
   text-align center
 
 .swiper-slide
+  display block
+  width 1080px
   text-align center
   font-size 18px
   background #fff
+
+.slide-img
+  vertical-align middle
 
 .time
     font-size 13px

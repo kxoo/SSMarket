@@ -54,7 +54,7 @@
 <script>
 // import './../assets/css/login.css'
 import axios from 'axios';
-import Login from '@/components/login.vue';
+import Login from '@/components/Login.vue';
 // import Loading from './RequestLoading.vue'
 
 export default {
@@ -69,7 +69,7 @@ export default {
     };
   },
   components: {
-    Login
+    Login,
   },
   mounted() {
   },

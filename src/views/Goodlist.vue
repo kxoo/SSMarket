@@ -25,12 +25,10 @@
         <span @click="addCart(item.productId)">加入购物车</span>
       </div>
     </div>
-    <NavFooter></NavFooter>
   </div>
 </template>
 
 <script>
-import NavFooter from '@/components/Footer.vue';
 import axios from 'axios';
 import { isNumber } from 'util';
 
@@ -69,7 +67,6 @@ export default {
     this.getGoodlist();
   },
   components: {
-    NavFooter,
   },
   methods: {
     getGoodlist() {

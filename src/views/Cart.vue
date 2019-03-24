@@ -50,16 +50,15 @@ export default {
   methods: {
     init() {
       axios.get('users/cartList')
-        .then((res) => {
-          console.log(res)
-          if(res.status === '0') {
-            let data = res.data;
-            this.cartList = data;
-          } else {
-            console.log(res.data)
-          }
-          
-        });
+      .then((res) => {
+        console.log(res);
+        if (res.status === '0') {
+          const data = res.data;
+          this.cartList = data;
+        } else {
+          console.log(res.data);
+        }
+      });
     },
     toggleSelection(rows) {
       if (rows) {
@@ -74,6 +73,5 @@ export default {
       this.multipleSelection = val;
     },
   },
-
 };
 </script>

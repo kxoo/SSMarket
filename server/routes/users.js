@@ -7,6 +7,23 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.post("/register", (req, res, next) => {
+  let params = {
+    userName = req.body.name,
+    userEmail = req.body.email,
+    userTel = req.body.tel,
+    userPwd = req.body.pass,
+    userAddress = req.body.address,
+  }
+  User.findOne(param.userName)
+  .then(res => {
+    res.json({
+      status: '1',
+      msg: err.message
+    })
+  })
+})
+
 router.post("/login", (req, res, next) => {
   let param = {
     userName:req.body.userName,
@@ -31,8 +48,8 @@ router.post("/login", (req, res, next) => {
         }
       })
     }
-  }) 
-  .catch(e => {
+  })
+  .catch(err => {
     res.json({
       status: '1',
       msg: err.message
