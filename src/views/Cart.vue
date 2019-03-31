@@ -51,12 +51,11 @@ export default {
     init() {
       axios.get('users/cartList')
       .then((res) => {
-        console.log(res);
         if (res.status === '0') {
           const data = res.data;
           this.cartList = data;
         } else {
-          console.log(res.data);
+          console.log(res.data.msg);
         }
       });
     },

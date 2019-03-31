@@ -23,10 +23,10 @@ router.get('/view', function (req, res, next) {
   let page = Number(req.query.page);
   let pageSize = Number(req.query.pageSize);
   let sort = req.query.sort;
-  
-  let skip = (page-1) * pageSize;
+
+  let skip = (page - 1) * pageSize;
   startPrice = Number(req.query.startPrice);
-  
+
   let data = {
     salePrice: {
       $gt: Number(req.query.startPrice),
@@ -44,7 +44,7 @@ router.get('/view', function (req, res, next) {
     } else {
       res.json({
         status: '0',
-        message: '',
+        msg: '显示货品',
         result: {
           count: doc.length,
           list: doc
@@ -55,14 +55,14 @@ router.get('/view', function (req, res, next) {
 });
 
 router.post("/addCart", function(req, res, next) {
-  let userId = '100000077';
+  let userId = req.cookies.userId;
   let productId = req.body.productId;
   User.findOne({ userId: userId })
   .then((UserDoc) => {
     let goodsItem = '';
     if(!UserDoc) {
       return Promise.reject();
-    } 
+    }
     UserDoc.cartList.forEach((item) => {
       if (item.productId === productId) {
         goodsItem = item;
@@ -71,17 +71,16 @@ router.post("/addCart", function(req, res, next) {
     })
     if (!goodsItem) {
       Goods.findOne({
-          productId: productId
+        productId: productId
       })
-      .then((res) => {
-        let doc = res;
+      .then((data) => {
+        let doc = data;
         Reflect.set(doc._doc, 'productNum', 1);
         Reflect.set(doc._doc, 'checked', 1);
-        console.log(doc._doc);
         return doc;
       })
-      .then((res) => {
-        UserDoc.cartList.push(res);
+      .then((data) => {
+        UserDoc.cartList.push(data);
         UserDoc.save();
       })
     } else {
@@ -91,16 +90,16 @@ router.post("/addCart", function(req, res, next) {
   .then(() => {
     return res.json({
       status: '0',
-      msg: '',
-      result: 'succeed'
+      msg: '添加购物车成功',
+      result: ''
     })
   })
   .catch(e => {
     res.json({
       status: '1',
-      msg: e
+      msg: e.message
     })
-  }) 
+  })
 })
 
 module.exports = router

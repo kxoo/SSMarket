@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-button type="text" @click="dialogVisible = true">登陆/注册</el-button>
+    <el-button type="text" @click="logout()" v-if="!toggle">登出</el-button>
+    <el-button type="text" @click="dialogVisible = true" v-if="toggle">登陆/注册</el-button>
     <el-dialog
       title="登陆"
       :visible.sync="dialogVisible"
@@ -8,7 +9,7 @@
       :before-close="handleClose">
       <el-input autosize v-model="userName" placeholder="用户名"></el-input>
       <div style="margin: 4px 0;"></div>
-      <el-input autosize v-model="userPwd" placeholder="密码"></el-input>
+      <el-input type="password" autosize v-model="userPwd" placeholder="密码" show-password></el-input>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="login()">登陆</el-button>
         <el-button @click="dialogVisible = false"><router-link to="/register">注册</router-link></el-button>
@@ -23,6 +24,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      toggle: true,
       userName: '',
       userPwd: '',
       errorTip: false,
@@ -34,11 +36,13 @@ export default {
   },
   methods: {
     checkLogin() {
-      axios.get('/users/checkLogin')
+      axios.post('/users/checkLogin')
         .then((res) => {
+          console.log(res.data.msg)
           const data = res.data;
           if (data.status == '0') {
             this.name = data.result;
+            this.toggle = false;
           }
         });
     },
@@ -56,8 +60,15 @@ export default {
           if (data.status == '0') {
             this.dialogVisible = false;
             this.name = data.userName;
+            this.toggle = false;
+            this.userName = '';
+            this.userPwd = '';
           // TODO:
           } else {
+            this.$message({
+              message: `登陆 失败, ${res.data.msg}`,
+              type: 'error'
+            })
             this.errorTip = true;
           }
         });
@@ -67,8 +78,9 @@ export default {
       axios.post('/users/logout')
         .then((res) => {
           const data = res.data;
-          if (data == '0') {
+          if (data.status === '0') {
             this.name = '';
+            this.toggle = true;
           }
         });
     },

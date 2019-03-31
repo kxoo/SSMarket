@@ -25,9 +25,9 @@ app.use(function (req, res, next) {
     next()
   } else {
     console.log(req.path)
-    if(req.originalUrl == '/users/login' || 
+    if(req.originalUrl == '/users/login' ||
     req.originalUrl == '/users/logout' ||
-    // req.path == 'users/register' ||
+    req.originalUrl == '/users/register' ||
     req.path == "/goods/view"
     ) {
       next()

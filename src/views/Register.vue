@@ -9,6 +9,12 @@
       ]">
       <el-input v-model="ruleForm.name" autocomplete="off"></el-input>
     </el-form-item>
+    <el-form-item label="密码" prop="pass">
+      <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="确认密码" prop="checkPass">
+      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+    </el-form-item>
     <el-form-item
       prop="email"
       label="邮箱"
@@ -36,12 +42,6 @@
        ]">
       <el-input v-model="ruleForm.address" autocomplete="off"></el-input>
     </el-form-item>
-    <el-form-item label="密码" prop="pass">
-      <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="确认密码" prop="checkPass">
-      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
       <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
       var validatePass = (rule, value, callback) => {
@@ -91,13 +93,38 @@ export default {
       };
     },
     methods: {
+      goBack () {
+        window.history.length > 1
+          ? this.$router.go(-1)
+          : this.$router.push('/')
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.ruleForm)
-            alert('submit!');
+            axios.post("/users/register", this.ruleForm)
+            .then(res => {
+              if (res.data.status === '0') {
+                this.$message({
+                  showClose: true,
+                  message: '注册成功',
+                  type: 'success'
+                });
+                this.goBack()
+              } else {
+                this.$message({
+                  message: `失败, ${res.data.msg}`,
+                  type: 'error'
+                });
+              }
+            })
+            .catch(e => {
+              console.log(e)
+            })
           } else {
-            console.log('error submit!!');
+            this.$message({
+              message: `失败, 请填写所有项目`,
+              type: 'error'
+            });
             return false;
           }
         });
