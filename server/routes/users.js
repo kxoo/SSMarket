@@ -124,12 +124,17 @@ router.get("/cartList", function(req, res, next) {
         msg: '查询购物车',
         result: doc.cartList
       })
+    } else {
+      res.json({
+        status: '0',
+        msg: '购物车为空'
+      })
     }
   })
   .catch(e => {
     res.json({
       status: '1',
-      msg: e
+      msg: e.message
     })
   })
 })
