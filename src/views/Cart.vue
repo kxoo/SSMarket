@@ -31,7 +31,7 @@
         min-width="180">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-input-number size="small" v-model="cartList[scope.$index].productNum" @change="handleSelectionChange(multipleSelection)"></el-input-number>
+            <el-input-number :min="0" size="small" v-model="cartList[scope.$index].productNum" @change="handleSelectionChange(multipleSelection)"></el-input-number>
           </div>
         </template>
       </el-table-column>
@@ -59,7 +59,7 @@ export default {
       summary: 0
     };
   },
-  mounted() {
+  created() {
     this.init();
   },
   methods: {
@@ -69,8 +69,15 @@ export default {
         if (res.data.status === '0') {
           const data = res.data.result;
           this.cartList = data;
+          if (!this.cartList) return Promise.reject()
+          for(let item in this.cartList) {
+            this.cartList[item].productNum = Number(this.cartList[item].productNum);
+          }
         } else {
-          console.log(res.data.msg);
+          this.$message({
+            message: `失败, ${res.data.msg}`,
+            type: 'error'
+          });
         }
       });
     },

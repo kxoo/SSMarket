@@ -74,14 +74,32 @@ export default {
         });
     },
     // TODO: 添加界面 块
+
     logout() {
-      axios.post('/users/logout')
-        .then((res) => {
-          const data = res.data;
-          if (data.status === '0') {
-            this.name = '';
-            this.toggle = true;
-          }
+       this.$confirm('退出登陆?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        .then(() => {
+          axios.post('/users/logout')
+          .then((res) => {
+            const data = res.data;
+            if (data.status === '0') {
+              this.name = '';
+              this.toggle = true;
+              this.$message({
+              type: 'success',
+              message: '登出成功!'
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
         });
     },
     handleClose(done) {

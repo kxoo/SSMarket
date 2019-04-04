@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <div class="main">
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperOne.jpg" alt=""></router-link>
-          </div>
-          <div class="swiper-slide">
-            <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperTwo.jpg" alt=""></router-link>
-          </div>
-          <div class="swiper-slide">
-            <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperThree.jpg" alt=""></router-link>
-          </div>
+  <div class="main">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperOne.jpg" alt=""></router-link>
         </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-        <!-- Add Arrows -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-slide">
+          <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperTwo.jpg" alt=""></router-link>
+        </div>
+        <div class="swiper-slide">
+          <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperThree.jpg" alt=""></router-link>
+        </div>
       </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Add Arrows -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
     <item v-bind:goodList="goodList" ></item>
   </div>
@@ -107,22 +105,25 @@ export default {
 
 .main
   width 100%
-  height 600px
 
 .swiper-container
   width 100%
-  height 100%
+  height 360px
   text-align center
 
 .swiper-slide
   display block
   width 1080px
+  height 100%
   text-align center
   font-size 18px
   background #fff
 
 .slide-img
   vertical-align middle
+  width 100%
+  height 100%
+
 
 .time
     font-size 13px
