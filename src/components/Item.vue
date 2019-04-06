@@ -20,8 +20,8 @@ export default {
   props: {
     goodList: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-}
+};
 </script>

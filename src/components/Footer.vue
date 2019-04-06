@@ -10,7 +10,7 @@
 <script>
 export default {
 
-}
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -25,4 +25,3 @@ export default {
   padding-right 28px
  }
 </style>
-

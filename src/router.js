@@ -5,7 +5,9 @@ import NotFound from './views/NotFound.vue';
 import Home from './views/Home.vue';
 import Goods from './views/Goodlist.vue';
 import Cart from './views/Cart.vue';
-import Register from './views/Register.vue'
+import Register from './views/Register.vue';
+import Address from './views/Address.vue';
+
 Vue.use(Router);
 
 export default new Router({
@@ -40,6 +42,11 @@ export default new Router({
       path: '/cart',
       name: 'Cart',
       component: Cart,
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      component: Address,
     },
   ],
 });

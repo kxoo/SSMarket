@@ -38,7 +38,7 @@ export default {
     checkLogin() {
       axios.post('/users/checkLogin')
         .then((res) => {
-          console.log(res.data.msg)
+          console.log(res.data.msg);
           const data = res.data;
           if (data.status == '0') {
             this.name = data.result;
@@ -67,38 +67,37 @@ export default {
           } else {
             this.$message({
               message: `登陆 失败, ${res.data.msg}`,
-              type: 'error'
-            })
+              type: 'error',
+            });
             this.errorTip = true;
           }
         });
     },
-    // TODO: 添加界面 块
 
     logout() {
-       this.$confirm('退出登陆?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
+      this.$confirm('退出登陆?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
         .then(() => {
           axios.post('/users/logout')
-          .then((res) => {
-            const data = res.data;
-            if (data.status === '0') {
-              this.name = '';
-              this.toggle = true;
-              this.$message({
-              type: 'success',
-              message: '登出成功!'
-              });
-            }
-          });
+            .then((res) => {
+              const data = res.data;
+              if (data.status === '0') {
+                this.name = '';
+                this.toggle = true;
+                this.$message({
+                  type: 'success',
+                  message: '登出成功!',
+                });
+              }
+            });
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: '已取消',
           });
         });
     },

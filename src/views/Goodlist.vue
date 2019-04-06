@@ -106,7 +106,7 @@ export default {
         params: param,
       })
         .then((res) => {
-          if(res.data.status === "0") {
+          if (res.data.status === '0') {
             if (res.data.result.count === 0) return this.toggle = false;
             this.toggle = true;
             if (next) return this.goodList = this.goodList.concat(res.data.result.list);
@@ -114,15 +114,15 @@ export default {
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
-              type: 'error'
-            })
+              type: 'error',
+            });
           }
 
           console.log(res.data.msg);
         })
-        .catch(e => {
-          console.log(e)
-        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
     nextPage() {
       this.page++;
@@ -134,7 +134,7 @@ export default {
       this.getGoodlist();
     },
     setPriceFilter(index) {
-      if (typeof(index) !== 'number') {
+      if (typeof (index) !== 'number') {
         this.priceChecked = {
           startPrice: 0,
           endPrice: 5000,
@@ -153,20 +153,20 @@ export default {
           if (res.data.status == 0) {
             this.$message({
               message: res.data.msg,
-            })
+            });
             console.log(res.data.msg);
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
-              type: 'error'
-            })
+              type: 'error',
+            });
           }
         })
         .catch((e) => {
           this.$message({
             message: `失败, ${e}`,
-            type: 'error'
-          })
+            type: 'error',
+          });
         });
     },
   },
@@ -197,4 +197,3 @@ export default {
   height 320px
 
 </style>
-

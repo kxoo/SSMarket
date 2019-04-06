@@ -53,87 +53,87 @@
 import axios from 'axios';
 
 export default {
-    data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
+  data() {
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
         }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.pass) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-      return {
-        ruleForm: {
-          name: '',
-          email: '',
-          tel: '',
-          pass: '',
-          checkPass: '',
-          address: '',
-        },
-        rules: {
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ],
-        }
-      };
-    },
-    methods: {
-      goBack () {
-        window.history.length > 1
-          ? this.$router.go(-1)
-          : this.$router.push('/')
+        callback();
+      }
+    };
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
+    return {
+      ruleForm: {
+        name: '',
+        email: '',
+        tel: '',
+        pass: '',
+        checkPass: '',
+        address: '',
       },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            axios.post("/users/register", this.ruleForm)
-            .then(res => {
+      rules: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' },
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' },
+        ],
+      },
+    };
+  },
+  methods: {
+    goBack() {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/');
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          axios.post('/users/register', this.ruleForm)
+            .then((res) => {
               if (res.data.status === '0') {
                 this.$message({
                   showClose: true,
                   message: '注册成功',
-                  type: 'success'
+                  type: 'success',
                 });
-                this.goBack()
+                this.goBack();
               } else {
                 this.$message({
                   message: `失败, ${res.data.msg}`,
-                  type: 'error'
+                  type: 'error',
                 });
               }
             })
-            .catch(e => {
-              console.log(e)
-            })
-          } else {
-            this.$message({
-              message: `失败, 请填写所有项目`,
-              type: 'error'
+            .catch((e) => {
+              console.log(e);
             });
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
-  }
+        } else {
+          this.$message({
+            message: '失败, 请填写所有项目',
+            type: 'error',
+          });
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

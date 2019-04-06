@@ -11,12 +11,12 @@
           text-color="#fff"
           active-text-color="#ffd04b">
           <el-menu-item class="logo" index = "/">
-            <span><img src="../assets/logo.png" alt="" style="margin: -10px 0 0 -10px"></span>
-            sportShop
+            <!-- <span><img src="../assets/logo.png" alt="" style="margin: -10px 0 0 -10px"></span> -->
+            <img style="height: 98%; margin-top: -9px;" src="../assets/icon.png" alt="">
             </el-menu-item>
           <el-menu-item class="whitespace" index = '0'></el-menu-item>
           <el-menu-item index='1'>
-            <el-input v-model="input" placeholder="搜索商品"></el-input>
+            <el-input v-model="input" name ="search" placeholder="搜索商品"></el-input>
           </el-menu-item>
           <el-menu-item index =""><Login></Login></el-menu-item>
           <el-menu-item index="2">我的订单</el-menu-item>
