@@ -148,15 +148,15 @@ router.post("/cartEdit", (req, res, next) => {
   const userId = req.cookies.userId;
   const productId = req.body.productId;
   const productNum = req.body.productNum;
-
+  const checked = req.body.checked;
   User.updateOne(
     { userId, "cartList.productId":productId },
     {
-      "cartList.$.productNum": productNum
+      "cartList.$.productNum": productNum,
+      "cartList.$.checked": checked
     },
     (err, doc) => {
       if (err) {
-        console.log(err)
         res.json({
           status: '1',
           msg: err,
@@ -232,6 +232,7 @@ router.post('/createAddress', (req, res, next) => {
   const userId = req.cookies.userId;
   const args = req.body;
   args.addressId = Math.floor(Math.random() * 1000000000);
+  console.log(req.body)
   User.updateOne(
     { userId },
     {
@@ -240,6 +241,7 @@ router.post('/createAddress', (req, res, next) => {
       }
     },
     (err, doc) => {
+      console.log(err)
       if (err) {
         res.json({
           status: '1',
@@ -284,6 +286,59 @@ router.post('/delAddress', (req, res, next) => {
         })
       }
     })
+})
+
+router.post('/payment', (req, res, next) => {
+  const userId = req.cookies.userId;
+  const addressId = req.body.addressId;
+  const orderTotal = req.body.orderTotal;
+
+  User.findOne({ userId }, (err, doc) => {
+    if (err) return Promise.reject(err);
+  })
+  .then(doc => {
+    let address = '';
+    let goodsList = [];
+    let orderId = `${Math.floor(Math.random() * 10)}${new Date().getTime()}${Math.floor(Math.random() * 10)}`;
+
+    doc.addressList.forEach(item => {
+      if(addressId == item.addressId) {
+        address = item
+      }
+    })
+
+    goodsList = doc.cartList.filter(item => item.checked == '1');
+    createDate = new Date();
+    const args = {
+      orderId,
+      orderTotal,
+      addressInfo: address,
+      goodsList: goodsList,
+      orderStatus: '1',
+      createDate,
+    }
+
+    doc.orderList.push(args);
+
+    doc.save((err, doc) => {
+      if (err) {
+        res.json({
+          status: '1',
+          msg: err,
+          result: ''
+        })
+      } else {
+        res.json({
+          status: '0',
+          msg: '购买成功',
+          result: {
+            orderId: args.orderId,
+            orderTotal: args.orderTotal
+          }
+        })
+      }
+    })
+  })
 })
 
 module.exports = router;

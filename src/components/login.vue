@@ -63,7 +63,7 @@ export default {
             this.toggle = false;
             this.userName = '';
             this.userPwd = '';
-          // TODO:
+            this.$router.go(0);
           } else {
             this.$message({
               message: `登陆 失败, ${res.data.msg}`,
@@ -84,6 +84,7 @@ export default {
           axios.post('/users/logout')
             .then((res) => {
               const data = res.data;
+              this.$router.go(0);
               if (data.status === '0') {
                 this.name = '';
                 this.toggle = true;

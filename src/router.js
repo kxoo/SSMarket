@@ -7,6 +7,7 @@ import Goods from './views/Goodlist.vue';
 import Cart from './views/Cart.vue';
 import Register from './views/Register.vue';
 import Address from './views/Address.vue';
+import FinishOrder from './views/FinishOrder.vue';
 
 Vue.use(Router);
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/address',
       name: 'Address',
       component: Address,
+    },
+    {
+      path: '/finishOrder',
+      name: 'FinishOrder',
+      component: FinishOrder,
     },
   ],
 });

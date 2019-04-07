@@ -17,7 +17,7 @@
               :key="index" @click="setPriceFilter(index)">{{item.startPrice}} - {{item.endPrice}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="2">
+          <!-- <el-menu-item index="2">
             <i class="el-icon-menu"></i>
             <span slot="title">导航二</span>
           </el-menu-item>
@@ -28,7 +28,7 @@
           <el-menu-item index="4">
             <i class="el-icon-setting"></i>
             <span slot="title">导航四</span>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </el-col>
     </el-row>

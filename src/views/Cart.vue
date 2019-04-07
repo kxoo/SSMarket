@@ -35,7 +35,7 @@
         min-width="120">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-input-number :min="1" size="small" v-model="scope.row.productNum" @change="handleEdit(scope.row)"></el-input-number>
+            <el-input-number :min="1" size="small" v-model="scope.row.productNum" @change="handleSelectionChange(multipleSelection);"></el-input-number>
           </div>
         </template>
       </el-table-column>
@@ -50,14 +50,9 @@
     </el-table>
     <div class="sum-footer">
       <span style="display:inline-block; padding-right: 60px">总计: {{this.summary}}</span>
-      <el-button type="primary" style="margin-right: 44px"><router-link to="/address">购买</router-link></el-button>
+      <el-button type="primary" style="margin-right: 44px" @click="this.onPress">购买</el-button>
     </div>
   </div>
-
-  <!-- <div style="margin-top: 20px">
-    <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
-    <el-button @click="toggleSelection()">取消选择</el-button>
-  </div> -->
 </template>
 
 <script>
@@ -80,13 +75,15 @@ export default {
       axios.get('users/cartList')
         .then((res) => {
           if (res.data.status === '0') {
-            const data = res.data.result;
-            this.cartList = data;
+            this.cartList = res.data.result;
             if (!this.cartList) return Promise.reject();
+            let arr = [];
             for (const item in this.cartList) {
               this.cartList[item].productNum = Number(this.cartList[item].productNum);
-              // this.cartList[item].itemSummary = this.cartList[item].productNum
+              if(Number(this.cartList[item].checked)=== 1) arr.push(this.cartList[item]);
             }
+            this.toggleSelection([...arr]);
+            console.log([...arr])
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
@@ -95,39 +92,50 @@ export default {
           }
         });
     },
+
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach((row) => {
+        rows.forEach(row => {
           this.$refs.multipleTable.toggleRowSelection(row);
         });
       } else {
         this.$refs.multipleTable.clearSelection();
+        this.handleSelectionChange();
       }
     },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      this.cartList.forEach((res) => {
+        res.checked = 0;
+        this.handleEdit(res);
+      })
+
       this.summary = 0;
       for (const item of this.multipleSelection) {
+        item.checked = 1;
         this.summary += (Number(item.productNum) * Number(item.salePrice));
+        this.handleEdit(item);
       }
     },
+
     handleEdit(row) {
-      console.log(123)
       axios.post('users/cartEdit', {
         productId: row.productId,
-        productNum: row.productNum
+        productNum: row.productNum,
+        checked: row.checked
       })
       .then(res => {
         if(res.data.status !== '0') return Promise.reject(res);
-        this.handleSelectionChange(this.multipleSelection)
       })
       .catch((e) => {
         this.$message({
-          message: `失败, ${e}`,
+          message: `失败, ${e.msg}`,
           type: 'error',
         });
       })
     },
+
     handleDelete(index, row) {
       axios.post('users/cartDel', { productId : row.productId})
       .then(res => {
@@ -149,6 +157,20 @@ export default {
         });
       })
     },
+
+    onPress(){
+      if(!this.multipleSelection) {
+        this.$message({
+          message: `请选择商品进行购买`,
+          type: 'error'
+        })
+      } else {
+        this.$router.push({
+          path: '/address',
+          query: {summary: this.summary}
+        });
+      }
+    }
   },
 };
 </script>

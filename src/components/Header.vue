@@ -20,7 +20,6 @@
           </el-menu-item>
           <el-menu-item index =""><Login></Login></el-menu-item>
           <el-menu-item index="2">我的订单</el-menu-item>
-          <el-menu-item index="3">消息中心</el-menu-item>
           <el-menu-item index="/cart">购物车</el-menu-item>
         </el-menu>
       </el-header>
@@ -86,7 +85,7 @@ export default {
   font-size 30px
 
 .whitespace
-  width 40%
+  width 36%
 
 .space
   width: 10%
