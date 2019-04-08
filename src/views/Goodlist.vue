@@ -33,12 +33,12 @@
       </el-col>
     </el-row>
     <el-row class="content">
-      <el-col :span="6" v-for="item in goodList" :key="item.productId" :offset="1">
-        <el-card :body-style="{ padding: '4px' , height: '380px' }">
-          <img src="" class="image">
-          <div style="padding: 14px 4px;" class="clearfix">
-            <span style="display:inline-block; float:left">{{item.productName}}</span>
-            <span style="display:inline-block; float:right">{{item.salePrice}}</span>
+      <el-col :span="6" v-for="item in goodList" :key="item.productId" :offset="1" style="margin-bottom: 12px">
+        <el-card style=" margin: 4px ; height: 320px; border: 0 " shadow="hover">
+          <img :src="`${publicPath}static/img/${item.productImage}`" class="image">
+          <div style="padding:14px 4px;">
+            <div class="item_price">¥{{item.salePrice}}.00</div>
+            <div class="item_name clearfix">{{item.productName}}</div>
             <div class="bottom clearfix">
               <el-button type="text" class="button" @click="addCart(item.productId)">加入购物车</el-button>
             </div>
@@ -58,6 +58,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       goodList: [],
       sortFlag: true,
       toggle: true,
@@ -193,7 +194,17 @@ export default {
 .item
   height 380px
 
-.image
-  height 320px
+.item_name
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+  width 100%
+  height 20px
+  float left
+
+.item_price
+  float left
+  color #da003d
+  margin 6px 0 6px 6px
 
 </style>

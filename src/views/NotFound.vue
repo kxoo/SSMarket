@@ -4,6 +4,6 @@
 
 <style lang="stylus" scoped>
 .notFound
-  font-size 80px
+  font-size 880px
   color #006a66
 </style>

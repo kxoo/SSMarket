@@ -48,7 +48,7 @@
 import axios from 'axios';
 
 export default {
-  data () {
+  data() {
     return {
       dialogFormVisible: false,
       address: [],
@@ -56,11 +56,11 @@ export default {
       form: {
         name: '',
         location: '',
-        postCode:'',
+        postCode: '',
         tel: '',
       },
-      formLabelWidth: '120px'
-    }
+      formLabelWidth: '120px',
+    };
   },
   mounted() {
     this.init();
@@ -68,93 +68,93 @@ export default {
   methods: {
     init() {
       axios.get('users/addressList')
-      .then((res) => {
-        this.address = res.data.result;
-        this.currentAddress = this.address[0];
-        return Promise.resolve();
-      })
+        .then((res) => {
+          this.address = res.data.result;
+          this.currentAddress = this.address[0];
+          return Promise.resolve();
+        });
     },
     createAddress() {
       axios.post('users/createAddress', {
-        userName : this.form.name,
-        streetName : this.form.location,
-        postCode : this.form.postCode,
-        tel : this.form.tel
+        userName: this.form.name,
+        streetName: this.form.location,
+        postCode: this.form.postCode,
+        tel: this.form.tel,
       })
-      .then(res => {
-        if(res.data.status === '0') {
-          this.$message({
-            message: "添加成功"
-          })
-          return this.init();
-        }
-        return Promise.reject()
-      })
-      .then(() => {
-        this.form = {
-          name: '',
-          location: '',
-          post:'',
-          tel: '',
-        };
-        this.dialogFormVisible = false;
-      })
-      .catch(e => {
-        this.$message({
-          message: `添加地址失败` + e,
-          type: 'error',
+        .then((res) => {
+          if (res.data.status === '0') {
+            this.$message({
+              message: '添加成功',
+            });
+            return this.init();
+          }
+          return Promise.reject();
         })
-      })
-    },
-    delAddress(item) {
-      axios.post("users/delAddress", {
-        addressId : item.addressId
-      })
-      .then(res => {
-        if(res.data.status === '0') {
+        .then(() => {
+          this.form = {
+            name: '',
+            location: '',
+            post: '',
+            tel: '',
+          };
+          this.dialogFormVisible = false;
+        })
+        .catch((e) => {
           this.$message({
-            message: `删除成功`,
-          });
-          this.init();
-        } else {
-          this.$message({
-            message: `失败, ${res.data.msg}`,
+            message: `添加地址失败${e}`,
             type: 'error',
           });
-        }
+        });
+    },
+    delAddress(item) {
+      axios.post('users/delAddress', {
+        addressId: item.addressId,
       })
+        .then((res) => {
+          if (res.data.status === '0') {
+            this.$message({
+              message: '删除成功',
+            });
+            this.init();
+          } else {
+            this.$message({
+              message: `失败, ${res.data.msg}`,
+              type: 'error',
+            });
+          }
+        });
     },
     selectItem(item) {
       this.currentAddress = item;
-      axios.post()
+      axios.post();
     },
     onPress() {
       axios.post('users/payMent', {
         addressId: this.currentAddress.addressId,
-        orderTotal: this.$route.query.summary
+        orderTotal: this.$route.query.summary,
       })
-      .then((res) => {
-        if(res.data.status === '0') {
-          this.$router.push({
-          path: '/finishOrder',
-          query: {
-            addressId: this.currentAddress.addressId,
-            orderTotal: this.$route.query.summary
+        .then((res) => {
+          if (res.data.status === '0') {
+            this.$router.push({
+              path: '/finishOrder',
+              query: {
+                addressId: this.currentAddress.addressId,
+                orderTotal: this.$route.query.summary,
+              },
+            });
+          } else {
+            Promise.reject(res.data.msg);
           }
-          })
-        } else {
-          Promise.reject(res.data.msg)
-        }
-      })
-      .catch(e => {
-        this.$message({
-          message: e,
-          type: 'error'
         })
-      })
-    }
-  }
-}
+        .catch((e) => {
+          this.$message({
+            message: e,
+            type: 'error',
+          });
+        });
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

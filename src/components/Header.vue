@@ -12,7 +12,7 @@
           active-text-color="#ffd04b">
           <el-menu-item class="logo" index = "/">
             <!-- <span><img src="../assets/logo.png" alt="" style="margin: -10px 0 0 -10px"></span> -->
-            <img style="height: 98%; margin-top: -9px;" src="../assets/icon.png" alt="">
+            <img style="height: 98%; margin-top: -6px;" src="../assets/icon.png" alt="">
             </el-menu-item>
           <el-menu-item class="whitespace" index = '0'></el-menu-item>
           <el-menu-item index='1'>
@@ -26,22 +26,14 @@
       <el-menu class="el-menu-demo" mode="horizontal" :router = true>
         <el-menu-item class="space" index = "/">首页</el-menu-item>
         <el-submenu index="1">
-          <template slot="title">服装</template>
-          <el-menu-item index="1-1">男性</el-menu-item>
-          <el-menu-item index="1-2">女性</el-menu-item>
-          <el-menu-item index="2-3">健身器具</el-menu-item>
+          <template slot="title">大球道具</template>
+          <el-menu-item index="1-1">网球</el-menu-item>
+          <el-menu-item index="1-2">棒球</el-menu-item>
         </el-submenu>
         <el-submenu index="2">
-          <template slot="title">器具</template>
-          <el-menu-item index="2-1">大球类</el-menu-item>
-          <el-menu-item index="2-2">小球类</el-menu-item>
-          <el-menu-item index="2-3">健身器具</el-menu-item>
-          <el-submenu index="2-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="2-4-1">选项1</el-menu-item>
-            <el-menu-item index="2-4-2">选项2</el-menu-item>
-            <el-menu-item index="2-4-3">选项3</el-menu-item>
-          </el-submenu>
+          <template slot="title">小球道具</template>
+          <el-menu-item index="2-1">篮球</el-menu-item>
+          <el-menu-item index="2-2">橄榄球</el-menu-item>
         </el-submenu>
         <el-menu-item index="3">配件</el-menu-item>
         <el-menu-item index="4">儿童</el-menu-item>

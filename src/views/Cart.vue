@@ -77,13 +77,13 @@ export default {
           if (res.data.status === '0') {
             this.cartList = res.data.result;
             if (!this.cartList) return Promise.reject();
-            let arr = [];
+            const arr = [];
             for (const item in this.cartList) {
               this.cartList[item].productNum = Number(this.cartList[item].productNum);
-              if(Number(this.cartList[item].checked)=== 1) arr.push(this.cartList[item]);
+              if (Number(this.cartList[item].checked) === 1) arr.push(this.cartList[item]);
             }
             this.toggleSelection([...arr]);
-            console.log([...arr])
+            console.log([...arr]);
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
@@ -95,7 +95,7 @@ export default {
 
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row);
         });
       } else {
@@ -109,7 +109,7 @@ export default {
       this.cartList.forEach((res) => {
         res.checked = 0;
         this.handleEdit(res);
-      })
+      });
 
       this.summary = 0;
       for (const item of this.multipleSelection) {
@@ -123,54 +123,53 @@ export default {
       axios.post('users/cartEdit', {
         productId: row.productId,
         productNum: row.productNum,
-        checked: row.checked
+        checked: row.checked,
       })
-      .then(res => {
-        if(res.data.status !== '0') return Promise.reject(res);
-      })
-      .catch((e) => {
-        this.$message({
-          message: `失败, ${e.msg}`,
-          type: 'error',
+        .then((res) => {
+          if (res.data.status !== '0') return Promise.reject(res);
+        })
+        .catch((e) => {
+          this.$message({
+            message: `失败, ${e.msg}`,
+            type: 'error',
+          });
         });
-      })
     },
 
     handleDelete(index, row) {
-      axios.post('users/cartDel', { productId : row.productId})
-      .then(res => {
-        if(res.data.status === '0') {
-          return this.init()
-        } else {
-          return Promise.reject(res)
-        }
-      })
-      .then(() => {
-        this.$message({
-          message: `修改成功`,
+      axios.post('users/cartDel', { productId: row.productId })
+        .then((res) => {
+          if (res.data.status === '0') {
+            return this.init();
+          }
+          return Promise.reject(res);
+        })
+        .then(() => {
+          this.$message({
+            message: '修改成功',
+          });
+        })
+        .catch((e) => {
+          this.$message({
+            message: `失败, ${e}`,
+            type: 'error',
+          });
         });
-      })
-      .catch((e) => {
-        this.$message({
-          message: `失败, ${e}`,
-          type: 'error',
-        });
-      })
     },
 
-    onPress(){
-      if(!this.multipleSelection) {
+    onPress() {
+      if (!this.multipleSelection) {
         this.$message({
-          message: `请选择商品进行购买`,
-          type: 'error'
-        })
+          message: '请选择商品进行购买',
+          type: 'error',
+        });
       } else {
         this.$router.push({
           path: '/address',
-          query: {summary: this.summary}
+          query: { summary: this.summary },
         });
       }
-    }
+    },
   },
 };
 </script>

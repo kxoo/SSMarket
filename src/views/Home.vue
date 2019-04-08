@@ -3,13 +3,13 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperOne.jpg" alt=""></router-link>
+          <router-link to="/list"><img class="slide-img" :src="`${publicPath}static/img/swiperOne.jpg`" alt=""></router-link>
         </div>
         <div class="swiper-slide">
-          <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperTwo.jpg" alt=""></router-link>
+          <router-link to="/list"><img class="slide-img" :src="`${publicPath}static/img/swiperTwo.jpg`" alt=""></router-link>
         </div>
         <div class="swiper-slide">
-          <router-link to="/list"><img class="slide-img" src="../assets/static/img/swiperThree.jpg" alt=""></router-link>
+          <router-link to="/list"><img class="slide-img" :src="`${publicPath}static/img/swiperThree.jpg`" alt=""></router-link>
         </div>
       </div>
       <!-- Add Pagination -->
@@ -19,6 +19,23 @@
       <div class="swiper-button-prev"></div>
     </div>
     <item v-bind:goodList="goodList" ></item>
+    <div class="">
+      <!-- <div class="banner_tile"><h2>如何打造人民喜闻乐见的体育商城</h2></div> -->
+      <div class="banner_main">
+        <div class="banner_item">
+          <img src="${publicPath}static/img/banner1.jpg" alt="" class="banner_img">
+          <div>品质保证</div>
+        </div>
+        <div class="banner_item">
+          <img src="${publicPath}static/img/banner2.jpg" alt="" class="banner_img">
+          <div>研发创新</div>
+        </div>
+        <div class="banner_item">
+          <img src="`${publicPath}static/img/banner3.jpg`" alt="" class="banner_img">
+          <div>提升表现</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,36 +47,43 @@ import Item from '@/components/Item.vue';
 export default {
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       goodList: [
         {
           title: '356722',
+          message: '',
           price: '539',
-          img: require('../assets/static/img/card_0.jpg'),
+          img: 'img/card_0.jpg',
         },
         {
           title: '356741',
+          message: '',
           price: '499',
-          img: require('../assets/static/img/card_1.jpg'),
+          img: 'img/card_1.jpg',
         },
         {
           title: '359863',
+          message: '',
           price: '259',
-          img: require('../assets/static/img/card_2.jpg'),
+          img: 'img/card_2.jpg',
         },
         {
           title: '367980',
+          message: '',
           price: '869',
-          img: require('../assets/static/img/card_3.jpg'),
+          img: 'img/card_3.jpg',
         },
         {
           title: '367046',
+          message: '',
           price: '869',
-          img: require('../assets/static/img/card_4.jpg'),
+          img: 'img/card_4.jpg',
         },
         {
           title: '367811',
+          message: '',
           price: '699',
-          img: require('../assets/static/img/card_5.jpg'),
+          img: 'img/card_5.jpg',
         },
       ],
     };
@@ -124,7 +148,6 @@ export default {
   width 100%
   height 100%
 
-
 .time
     font-size 13px
     color #999
@@ -141,12 +164,27 @@ export default {
   width 100%
   display block
 
-.clearfix:before,
-.clearfix:after
-  display table
-  content ""
+.banner_main
+  display flex
+  width 100%
+  padding-left 3%
+  margin-top 12px
+  border-top #ccc thin solid
 
-.clearfix:after
-  clear both
+.banner_item
+  flex-basis calc(33.3% - 32px)
+
+.banner_img
+  width 100%
+
+h2
+  font-family Biotif,"Noto Sans, Noto Sans JP, Noto Sans KR",Helvetica
+  font-weight 700
+  font-size 1.61rem
+  line-height 2rem
+  color #1a1a1a
+  text-transform none
+  letter-spacing -.5px
+  text-shadow 0 0 black
 
 </style>
