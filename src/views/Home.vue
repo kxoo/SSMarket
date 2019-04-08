@@ -23,15 +23,15 @@
       <!-- <div class="banner_tile"><h2>如何打造人民喜闻乐见的体育商城</h2></div> -->
       <div class="banner_main">
         <div class="banner_item">
-          <img src="${publicPath}static/img/banner1.jpg" alt="" class="banner_img">
+          <img :src="`${publicPath}static/img/banner1.jpg`" alt="" class="banner_img">
           <div>品质保证</div>
         </div>
         <div class="banner_item">
-          <img src="${publicPath}static/img/banner2.jpg" alt="" class="banner_img">
+          <img :src="`${publicPath}static/img/banner2.jpg`" alt="" class="banner_img">
           <div>研发创新</div>
         </div>
         <div class="banner_item">
-          <img src="`${publicPath}static/img/banner3.jpg`" alt="" class="banner_img">
+          <img :src="`${publicPath}static/img/banner3.jpg`" alt="" class="banner_img">
           <div>提升表现</div>
         </div>
       </div>
@@ -50,40 +50,45 @@ export default {
       publicPath: process.env.BASE_URL,
       goodList: [
         {
-          title: '356722',
+          title: '2019 A2K 1787 SUPERSKIN 11.75 INFIELD BASEBALL GLOVE ',
           message: '',
-          price: '539',
-          img: 'img/card_0.jpg',
+          col: 12,
+          price: '2160',
+          img: 'img/1.jpg',
         },
         {
-          title: '356741',
+          title: `2018 A2000 1789 11.5 INFIELD/PITCHER'S BASEBALL GLOVE`,
           message: '',
-          price: '499',
-          img: 'img/card_1.jpg',
+          col: 12,
+          price: '1560',
+          img: 'img/2.jpg',
+        },
+        // {
+        //   title: '359863',
+        //   message: '',
+        //   price: '1560',
+        //   img: 'img/3.jpg',
+        // },
+        {
+          title: 'EVOLUTION GAME BASKETBALL',
+          message: '',
+          col: 8,
+          price: '360',
+          img: 'img/7.jpg',
         },
         {
-          title: '359863',
+          title: 'NCAA OFFICIAL GAME BASKETBALL',
           message: '',
-          price: '259',
-          img: 'img/card_2.jpg',
+          col: 8,
+          price: '420',
+          img: 'img/8.jpg',
         },
         {
-          title: '367980',
+          title: 'EVOLUTION BLACK EDITION BASKETBALL',
           message: '',
-          price: '869',
-          img: 'img/card_3.jpg',
-        },
-        {
-          title: '367046',
-          message: '',
-          price: '869',
-          img: 'img/card_4.jpg',
-        },
-        {
-          title: '367811',
-          message: '',
-          price: '699',
-          img: 'img/card_5.jpg',
+          col: 8,
+          price: '360',
+          img: 'img/9.jpg',
         },
       ],
     };

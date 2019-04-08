@@ -1,14 +1,13 @@
 <template>
   <div class="main">
-    <el-row class="aside">
-      <el-col :span="24">
-        <h5>分类</h5>
+    <el-aside width="200px" class="aside">
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo">
+          <div  style="margin-top:60px; font-weight:700; font-size: 16px">分类</div>
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-circle-check-outline"></i>
               <span>按价格</span>
             </template>
             <el-menu-item-group>
@@ -30,11 +29,10 @@
             <span slot="title">导航四</span>
           </el-menu-item> -->
         </el-menu>
-      </el-col>
-    </el-row>
+    </el-aside>
     <el-row class="content">
       <el-col :span="6" v-for="item in goodList" :key="item.productId" :offset="1" style="margin-bottom: 12px">
-        <el-card style=" margin: 4px ; height: 320px; border: 0 " shadow="hover">
+        <el-card style=" margin: 4px ; border: 0 " shadow="hover">
           <img :src="`${publicPath}static/img/${item.productImage}`" class="image">
           <div style="padding:14px 4px;">
             <div class="item_price">¥{{item.salePrice}}.00</div>
@@ -178,12 +176,14 @@ export default {
 
 .main
   display flex
-  margin-top 20px
+
+.el-aside
+  color: #333;
+  text-align: center;
+  // line-height: 200px;
 
 .aside
-  flex 1
   box-shadow 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
-  color #333
 
 .aside-item
   padding-left 68px
@@ -199,7 +199,7 @@ export default {
   white-space nowrap
   text-overflow ellipsis
   width 100%
-  height 20px
+  height 24px
   float left
 
 .item_price
