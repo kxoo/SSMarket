@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require('./../models/user')
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
@@ -35,75 +35,75 @@ router.post("/register", (req, res, next) => {
     userPwd: req.body.pass,
     // userAddress : req.body.address,
   }
-  User.findOne({userName: params.userName})
-  .then(doc => {
-    if(doc) {
+  User.findOne({ userName: params.userName })
+    .then(doc => {
+      if (doc) {
+        res.json({
+          status: '1',
+          msg: '用户名已存在'
+        })
+        return
+      }
+      console.log(params)
+      const user = new User(params)
+      user.save()
+      res.json({
+        status: '0',
+        msg: '注册成功'
+      })
+
+    })
+    .catch(err => {
       res.json({
         status: '1',
-        msg: '用户名已存在'
+        msg: err.message
       })
-      return
-    }
-    console.log(params)
-    const user = new User(params)
-    user.save()
-    res.json({
-      status: '0',
-      msg: '注册成功'
     })
-
-  })
-  .catch(err => {
-    res.json({
-      status: '1',
-      msg: err.message
-    })
-  })
 })
 
 // 登陆
 router.post("/login", (req, res, next) => {
   let param = {
-    userName:req.body.userName,
+    userName: req.body.userName,
     userPwd: req.body.userPwd,
   }
   User.findOne(param)
-  .then(doc => {
-    if(doc) {
-      res.cookie("userId", doc.userId, {
-        path: '/',
-        maxAge: 1000 * 60 * 60
-      });
-      res.cookie("userName", doc.userName, {
-        path: '/',
-        maxAge: 1000 * 60 * 60
-      });
-      res.json({
-        status: '0',
-        msg: '登陆成功',
-        result: {
-          userName: res.userName
-        }
-      })
-    } else {
+    .then(doc => {
+      if (doc) {
+        res.cookie("userId", doc.userId, {
+          path: '/',
+          maxAge: 1000 * 60 * 60
+        });
+        res.cookie("userName", doc.userName, {
+          path: '/',
+          maxAge: 1000 * 60 * 60
+        });
+        res.json({
+          status: '0',
+          msg: '登陆成功',
+          result: {
+            userName: res.userName
+          }
+        })
+      } else {
+        res.json({
+          status: '1',
+          msg: '用户名或密码错误'
+        })
+      }
+    })
+    .catch(err => {
       res.json({
         status: '1',
-        msg: '用户名或密码错误'
+        msg: err.message
       })
-    }
-  })
-  .catch(err => {
-    res.json({
-      status: '1',
-      msg: err.message
     })
-  })
 })
 
 // 登出
 router.post("/logout", (req, res, next) => {
   res.cookie("userId ", "", {
-    path:"/",
+    path: "/",
     maxAge: -1
   })
   res.cookie("userName ", "", {
@@ -117,30 +117,56 @@ router.post("/logout", (req, res, next) => {
   })
 })
 
+// 查询历史订单
+router.get("/order", (req, res, next) => {
+  const userId = req.cookies.userId;
+  User.findOne({ userId: userId })
+    .then(doc => {
+      if (doc) {
+        res.json({
+          status: '0',
+          msg: '查询订单',
+          result: doc.orderList
+        })
+      } else {
+        res.json({
+          status: '0',
+          msg: '订单为空'
+        })
+      }
+    })
+    .catch(e => {
+      res.json({
+        status: '1',
+        msg: e.message
+      })
+    })
+})
+
 // 查询购物车
 router.get("/cartList", (req, res, next) => {
   const userId = req.cookies.userId;
-  User.findOne( {userId : userId} )
-  .then(doc => {
-    if (doc) {
-      res.json({
-        status: '0',
-        msg: '查询购物车',
-        result: doc.cartList
-      })
-    } else {
-      res.json({
-        status: '0',
-        msg: '购物车为空'
-      })
-    }
-  })
-  .catch(e => {
-    res.json({
-      status: '1',
-      msg: e.message
+  User.findOne({ userId: userId })
+    .then(doc => {
+      if (doc) {
+        res.json({
+          status: '0',
+          msg: '查询购物车',
+          result: doc.cartList
+        })
+      } else {
+        res.json({
+          status: '0',
+          msg: '购物车为空'
+        })
+      }
     })
-  })
+    .catch(e => {
+      res.json({
+        status: '1',
+        msg: e.message
+      })
+    })
 })
 
 // 编辑购物车
@@ -150,7 +176,7 @@ router.post("/cartEdit", (req, res, next) => {
   const productNum = req.body.productNum;
   const checked = req.body.checked;
   User.updateOne(
-    { userId, "cartList.productId":productId },
+    { userId, "cartList.productId": productId },
     {
       "cartList.$.productNum": productNum,
       "cartList.$.checked": checked
@@ -178,14 +204,15 @@ router.post("/cartDel", (req, res, next) => {
   const productId = req.body.productId;
   User.updateOne(
     { userId },
-    { $pull: {
-      "cartList":{
-        productId
+    {
+      $pull: {
+        "cartList": {
+          productId
+        }
       }
-    }
     },
     (err, doc) => {
-      if(err) {
+      if (err) {
         res.json({
           status: '1',
           msg: err,
@@ -288,6 +315,7 @@ router.post('/delAddress', (req, res, next) => {
     })
 })
 
+// 付款
 router.post('/payment', (req, res, next) => {
   const userId = req.cookies.userId;
   const addressId = req.body.addressId;
@@ -296,49 +324,49 @@ router.post('/payment', (req, res, next) => {
   User.findOne({ userId }, (err, doc) => {
     if (err) return Promise.reject(err);
   })
-  .then(doc => {
-    let address = '';
-    let goodsList = [];
-    let orderId = `${Math.floor(Math.random() * 10)}${new Date().getTime()}${Math.floor(Math.random() * 10)}`;
+    .then(doc => {
+      let address = '';
+      let goodsList = [];
+      let orderId = `${Math.floor(Math.random() * 10)}${new Date().getTime()}${Math.floor(Math.random() * 10)}`;
 
-    doc.addressList.forEach(item => {
-      if(addressId == item.addressId) {
-        address = item
+      doc.addressList.forEach(item => {
+        if (addressId == item.addressId) {
+          address = item
+        }
+      })
+
+      goodsList = doc.cartList.filter(item => item.checked == '1');
+      createDate = String(new Date());
+      const args = {
+        orderId,
+        orderTotal,
+        addressInfo: address,
+        goodsList: goodsList,
+        orderStatus: '1',
+        createDate,
       }
+
+      doc.orderList.push(args);
+
+      doc.save((err, doc) => {
+        if (err) {
+          res.json({
+            status: '1',
+            msg: err,
+            result: ''
+          })
+        } else {
+          res.json({
+            status: '0',
+            msg: '购买成功',
+            result: {
+              orderId: args.orderId,
+              orderTotal: args.orderTotal
+            }
+          })
+        }
+      })
     })
-
-    goodsList = doc.cartList.filter(item => item.checked == '1');
-    createDate = new Date();
-    const args = {
-      orderId,
-      orderTotal,
-      addressInfo: address,
-      goodsList: goodsList,
-      orderStatus: '1',
-      createDate,
-    }
-
-    doc.orderList.push(args);
-
-    doc.save((err, doc) => {
-      if (err) {
-        res.json({
-          status: '1',
-          msg: err,
-          result: ''
-        })
-      } else {
-        res.json({
-          status: '0',
-          msg: '购买成功',
-          result: {
-            orderId: args.orderId,
-            orderTotal: args.orderTotal
-          }
-        })
-      }
-    })
-  })
 })
 
 module.exports = router;

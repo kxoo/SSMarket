@@ -1,6 +1,10 @@
+// 将mongoose 引入项目
 const mongoose = require('mongoose');
+
+// 引入mongoo Schema 映射定义的文档集
 const Schema = mongoose.Schema;
 
+// 定义表结构
 const userSchema = new Schema({
   "userId": String,
   "userName": String,
@@ -14,7 +18,7 @@ const userSchema = new Schema({
     "salePrice": String,
     "productImage": String,
     "checked": String,
-    "productNum": String
+    "productNum": Number
   }],
   "addressList": [{
     "addressId": String,
@@ -26,4 +30,5 @@ const userSchema = new Schema({
   }]
 })
 
+//通过model 生成模型，用来操作数据库
 module.exports = mongoose.model("User", userSchema)

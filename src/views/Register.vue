@@ -137,6 +137,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
 .register
   margin-top 40px
   width 40%

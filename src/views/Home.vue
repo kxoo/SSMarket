@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <Dialog this></Dialog>
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
@@ -43,6 +44,7 @@
 // import axios from 'axios';
 import Swiper from 'swiper';
 import Item from '@/components/Item.vue';
+import Dialog from '@/components/Dialog.vue';
 
 export default {
   data() {
@@ -63,12 +65,6 @@ export default {
           price: '1560',
           img: 'img/2.jpg',
         },
-        // {
-        //   title: '359863',
-        //   message: '',
-        //   price: '1560',
-        //   img: 'img/3.jpg',
-        // },
         {
           title: 'EVOLUTION GAME BASKETBALL',
           message: '',
@@ -95,6 +91,7 @@ export default {
   },
   components: {
     Item,
+    Dialog,
   },
   mounted: () => {
     // eslint-disable-next-line

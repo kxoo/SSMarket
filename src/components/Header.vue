@@ -19,7 +19,7 @@
             <el-input v-model="input" name ="search" placeholder="搜索商品"></el-input>
           </el-menu-item>
           <el-menu-item index =""><Login></Login></el-menu-item>
-          <el-menu-item index="2">我的订单</el-menu-item>
+          <el-menu-item index="/order">我的订单</el-menu-item>
           <el-menu-item index="/cart">购物车</el-menu-item>
         </el-menu>
       </el-header>

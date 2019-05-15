@@ -65,6 +65,7 @@ export default {
   mounted() {
     this.init();
   },
+
   methods: {
     init() {
       axios.get('users/addressList')
@@ -74,6 +75,7 @@ export default {
           return Promise.resolve();
         });
     },
+
     createAddress() {
       axios.post('users/createAddress', {
         userName: this.form.name,
@@ -106,6 +108,7 @@ export default {
           });
         });
     },
+
     delAddress(item) {
       axios.post('users/delAddress', {
         addressId: item.addressId,
@@ -124,10 +127,12 @@ export default {
           }
         });
     },
+
     selectItem(item) {
       this.currentAddress = item;
       axios.post();
     },
+
     onPress() {
       axios.post('users/payMent', {
         addressId: this.currentAddress.addressId,

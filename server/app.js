@@ -1,16 +1,23 @@
+// 引入错误管理 http-error
 var createError = require('http-errors');
+// 引入 express
 var express = require('express');
+// 引入 path 路径管理
 var path = require('path');
+// 引入 cookie-parser cookie 解析
 var cookieParser = require('cookie-parser');
+// 引入日志记录 morgan
 var logger = require('morgan');
 
+// 引入如路径模块 index useres goods
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var goodsRouter = require('./routes/goods');
-
+// 引入 express 主方法
 var app = express();
 
 // view engine setup
+//  express 主方法 中进行配置操作
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -20,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 登录验证
 app.use(function (req, res, next) {
   if (req.cookies.userId) {
     next()

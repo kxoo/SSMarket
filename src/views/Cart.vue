@@ -1,3 +1,4 @@
+// 前端购物车页面，支持全选，显示总额，根据后端数据库接口判断
 <template>
   <div>
     <el-table
@@ -56,10 +57,11 @@
 </template>
 
 <script>
+// 通过axios 进行http 请求，类似与ajax，触发局部刷新
 import axios from 'axios';
-import { Promise } from 'q';
 
 export default {
+  // 购物车数据，选择数目， 总额，默认是零，根据请求数据变化
   data() {
     return {
       cartList: [],
@@ -67,10 +69,14 @@ export default {
       summary: 0,
     };
   },
+
+  // 页面准备完成后进行初始化操作
   created() {
     this.init();
   },
+
   methods: {
+    // 初始化操作 通过接口获取购物车数据
     init() {
       axios.get('users/cartList')
         .then((res) => {
@@ -83,7 +89,6 @@ export default {
               if (Number(this.cartList[item].checked) === 1) arr.push(this.cartList[item]);
             }
             this.toggleSelection([...arr]);
-            console.log([...arr]);
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
@@ -93,6 +98,7 @@ export default {
         });
     },
 
+    // 在前端界面改变选择状态
     toggleSelection(rows) {
       if (rows) {
         rows.forEach((row) => {
@@ -104,6 +110,7 @@ export default {
       }
     },
 
+    // 遍历购物车，计算出总价，在页面下方显示
     handleSelectionChange(val) {
       this.multipleSelection = val;
       this.cartList.forEach((res) => {
@@ -119,6 +126,7 @@ export default {
       }
     },
 
+    // 对编辑购物车的操作作出处理，提交给后台数据库保存
     handleEdit(row) {
       axios.post('users/cartEdit', {
         productId: row.productId,
@@ -136,6 +144,7 @@ export default {
         });
     },
 
+    // 对删除购物车内容作出反应，并提交数据库保存
     handleDelete(index, row) {
       axios.post('users/cartDel', { productId: row.productId })
         .then((res) => {
@@ -157,9 +166,10 @@ export default {
         });
     },
 
+    // 提交按钮，根据是否选择了商品。来阻止用户进入下一步操作
     onPress() {
-      if (!this.multipleSelection) {
-        this.$message({
+      if (!this.multipleSelection.length) {
+        return this.$message({
           message: '请选择商品进行购买',
           type: 'error',
         });

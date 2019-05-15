@@ -16,18 +16,6 @@
               :key="index" @click="setPriceFilter(index)">{{item.startPrice}} - {{item.endPrice}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <!-- <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item> -->
         </el-menu>
     </el-aside>
     <el-row class="content">
@@ -69,18 +57,18 @@ export default {
       priceRange: [
         {
           startPrice: 0.00,
-          endPrice: 100.00,
+          endPrice: 300.00,
         },
         {
-          startPrice: 100.00,
-          endPrice: 500.00,
+          startPrice: 300.00,
+          endPrice: 800.00,
         },
         {
-          startPrice: 500.00,
-          endPrice: 1000.00,
+          startPrice: 800.00,
+          endPrice: 1600.00,
         },
         {
-          startPrice: 1000.00,
+          startPrice: 1600.00,
           endPrice: 5000.00,
         },
       ],
@@ -92,7 +80,9 @@ export default {
   components: {
   },
   methods: {
+    // 获取商品列表，根据前台指定的参数提交给数据库进行查询
     getGoodlist(next) {
+      // 选择参数
       const param = {
         page: this.page,
         pageSize: this.pageSize,
@@ -100,7 +90,7 @@ export default {
         endPrice: this.priceChecked.endPrice,
         sort: this.sortFlag ? 1 : -1,
       };
-
+      // 发送请求，根据获取的结果获得参数
       axios.get('/goods/view', {
         params: param,
       })
@@ -116,22 +106,26 @@ export default {
               type: 'error',
             });
           }
-
-          console.log(res.data.msg);
         })
         .catch((e) => {
           console.log(e);
         });
     },
+
+    // 支持翻页操作，再次提交上述的方法，实现代码复用
     nextPage() {
       this.page++;
       this.getGoodlist(true);
     },
+
+    // 修改商品排列顺序，复用方法 getGoodslist()
     sortGoods() {
       this.sortFlag = !this.sortFlag;
       this.page = 1;
       this.getGoodlist();
     },
+
+    //  设置价格过滤，显示符合指定参数的商品
     setPriceFilter(index) {
       if (typeof (index) !== 'number') {
         this.priceChecked = {
@@ -144,6 +138,8 @@ export default {
       this.page = 1;
       this.getGoodlist();
     },
+
+    // 能够把商品添加到购物车当中，失败后还能够提供错误信息告知用户
     addCart(productId) {
       axios.post('/goods/addCart', {
         productId,

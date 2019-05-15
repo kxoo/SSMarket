@@ -1,13 +1,17 @@
+// 引入express 作为后端项目
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+
+//引入经过mongoose 构建的模型
 var Goods = require('../models/goods');
-var User = require('../models/user')
+var User = require('../models/user');
+
 // 连接数据库
 mongoose.connect('mongodb://127.0.0.1:27017/db_shop', {
   useNewUrlParser: true
 })
-
+// 链接成果、失败、 断开的指示
 mongoose.connection.on("connected", function() {
   console.log('连接成功');
 })
@@ -18,23 +22,31 @@ mongoose.connection.on("disconnected", function () {
   console.log('连接disconnected');
 })
 
-/* GET users listing. */
+
+/* GET goodss listing. */
 router.get('/view', function (req, res, next) {
+  // 查看商品请求，能够根据请求商品显示的数量和页数，进行指定商品的请求
   let page = Number(req.query.page);
   let pageSize = Number(req.query.pageSize);
   let sort = req.query.sort;
 
   let skip = (page - 1) * pageSize;
+  // 能够根据请求的商品价格，来获取指定的商品进行显示
   startPrice = Number(req.query.startPrice);
 
   let data = {
+    // $gt $lte 获取区间内指定数值
     salePrice: {
       $gt: Number(req.query.startPrice),
       $lte: Number(req.query.endPrice),
     },
   };
+
+  // 查找数据库内容，通过mongoose api fing() 查找，skip() limit(), 做出限制，获得指定的数据
   let goodsModel = Goods.find(data).skip(skip).limit(pageSize);
   goodsModel.sort({'salePrice': sort})
+
+  // 执行查找之后，得到的数据作为doc，传递给前台系统，同样还能够将发生的错误报文传递
   goodsModel.exec(function(err, doc) {
     if(err) {
       res.json({

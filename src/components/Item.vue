@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="2" >
     <el-col v-for="(item, index) in goodList" :key ="index" :span="item.col" class="item">
-      <el-card :body-style="{ border: '0px' }" shadow="hover">
+      <el-card :body-style="{ border: '0px' }" shadow="hover" >
         <img :src="`${publicPath}static/${item.img}`" class="image">
         <div style="padding: 14px;">
           <span class="box_title">{{item.title}}</span><br>
