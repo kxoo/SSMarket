@@ -5,6 +5,8 @@ const productSchema = new Schema({
   "productId": {type: String},
   "productName": {type: String},
   "salePrice": {type: Number},
+  "brand": { type: String },
+  "type": { type: String },
   "productImage": {type: String}
 })
 

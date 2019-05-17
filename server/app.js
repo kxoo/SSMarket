@@ -13,6 +13,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var goodsRouter = require('./routes/goods');
+var manageRouter = require('./routes/manage');
+
 // 引入 express 主方法
 var app = express();
 
@@ -36,7 +38,8 @@ app.use(function (req, res, next) {
     if(req.originalUrl == '/users/login' ||
     req.originalUrl == '/users/logout' ||
     req.originalUrl == '/users/register' ||
-    req.path == "/goods/view"
+    req.path == "/goods/view" ||
+    req.path == "/manage/users"
     ) {
       next()
     } else {
@@ -52,6 +55,7 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/goods', goodsRouter);
 app.use('/users', usersRouter);
+app.use('/manage', manageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

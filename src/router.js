@@ -6,8 +6,14 @@ import Home from './views/Home.vue';
 import Goods from './views/Goodlist.vue';
 import Cart from './views/Cart.vue';
 import Register from './views/Register.vue';
+import Item from './views/item.vue'
+import Edit from './views/edit.vue'
 import Address from './views/Address.vue';
 import FinishOrder from './views/FinishOrder.vue';
+import Wares from './views/wares.vue'
+import Main from './views/main.vue'
+import AddWare from './views/addWare.vue'
+import Order from './views/order.vue'
 
 Vue.use(Router);
 
@@ -19,6 +25,36 @@ export default new Router({
       path: '/NotFound',
       name: 'NotFound',
       component: NotFound,
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order,
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: Main,
+    },
+    {
+      path: '/addWare',
+      name: 'addWare',
+      component: AddWare,
+    },
+    {
+      path: '/item',
+      name: 'item',
+      component: Item,
+    },
+    {
+      path: '/edit',
+      name: 'edit',
+      component: Edit,
+    },
+    {
+      path: '/wares',
+      name: 'wares',
+      component: Wares,
     },
     {
       path: '*',

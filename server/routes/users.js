@@ -44,7 +44,6 @@ router.post("/register", (req, res, next) => {
         })
         return
       }
-      console.log(params)
       const user = new User(params)
       user.save()
       res.json({
