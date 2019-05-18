@@ -1,16 +1,16 @@
 <template>
   <div class="main">
-    <Dialog this></Dialog>
+    <dialog v-bind:item="data" v-bind:dialogTableVisible="dialogTableVisible"></Dialog>
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <router-link to="/list"><img class="slide-img" :src="`${publicPath}static/img/swiperOne.jpg`" alt=""></router-link>
+          <img class="slide-img" :src="`${publicPath}static/img/swiperOne.jpg`" alt="" @click="selectItem(String(201710013))">
         </div>
         <div class="swiper-slide">
-          <router-link to="/list"><img class="slide-img" :src="`${publicPath}static/img/swiperTwo.jpg`" alt=""></router-link>
+          <img class="slide-img" :src="`${publicPath}static/img/swiperTwo.jpg`" alt="" @click="selectItem(String(201710014))">
         </div>
         <div class="swiper-slide">
-          <router-link to="/list"><img class="slide-img" :src="`${publicPath}static/img/swiperThree.jpg`" alt=""></router-link>
+          <img class="slide-img" :src="`${publicPath}static/img/swiperThree.jpg`" alt="" @click="selectItem(String(201710015))">
         </div>
       </div>
       <!-- Add Pagination -->
@@ -49,11 +49,14 @@ import Dialog from '@/components/Dialog.vue';
 export default {
   data() {
     return {
+      data: '0000',
+      dialogTableVisible: false,
       publicPath: process.env.BASE_URL,
       goodList: [
         {
           title: '2019 A2K 1787 SUPERSKIN 11.75 INFIELD BASEBALL GLOVE ',
           message: '',
+          productId: '201710017',
           col: 12,
           price: '2160',
           img: 'img/1.jpg',
@@ -61,6 +64,7 @@ export default {
         {
           title: `2018 A2000 1789 11.5 INFIELD/PITCHER'S BASEBALL GLOVE`,
           message: '',
+          productId: '201710005',
           col: 12,
           price: '1560',
           img: 'img/2.jpg',
@@ -68,6 +72,7 @@ export default {
         {
           title: 'EVOLUTION GAME BASKETBALL',
           message: '',
+          productId: '201710004',
           col: 8,
           price: '360',
           img: 'img/7.jpg',
@@ -75,6 +80,7 @@ export default {
         {
           title: 'NCAA OFFICIAL GAME BASKETBALL',
           message: '',
+          productId: '201710008',
           col: 8,
           price: '420',
           img: 'img/8.jpg',
@@ -82,6 +88,7 @@ export default {
         {
           title: 'EVOLUTION BLACK EDITION BASKETBALL',
           message: '',
+          productId: "201710009",
           col: 8,
           price: '360',
           img: 'img/9.jpg',
@@ -114,6 +121,11 @@ export default {
     });
   },
   methods: {
+    selectItem(id) {
+      this.data = id;
+      this.dialogTableVisible= true;
+      console.log(123)
+    }
     // getGoodList() {
     //   axios.get('/goods').then((result) => {
     //     const res = result.data;

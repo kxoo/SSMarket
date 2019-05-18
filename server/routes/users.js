@@ -10,7 +10,6 @@ router.get('/', function (req, res, next) {
 // 检查登陆
 router.post("/checkLogin", function (req, res, next) {
   if (req.cookies.userId) {
-    console.log(req.cookies)
     res.json({
       status: '0',
       msg: '已登陆',
@@ -258,7 +257,6 @@ router.post('/createAddress', (req, res, next) => {
   const userId = req.cookies.userId;
   const args = req.body;
   args.addressId = Math.floor(Math.random() * 1000000000);
-  console.log(req.body)
   User.updateOne(
     { userId },
     {

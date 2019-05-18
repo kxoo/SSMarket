@@ -9,11 +9,8 @@ var User = require('../models/user');
 var Board = require('../models/boards');
 
 router.get('/users', function (req, res, next) {
-  // 查找数据库内容，通过mongoose api find() 查找，skip() limit(), 做出限制，获得指定的数据
   let userModel = User.find()
-  // goodsModel.sort({ 'salePrice': sort })
 
-  // 执行查找之后，得到的数据作为doc，传递给前台系统，同样还能够将发生的错误报文传递
   userModel.exec(function (err, doc) {
     if (err) {
       res.json({
@@ -85,11 +82,8 @@ router.post('/editUser', (req, res, next) => {
 })
 
 router.get('/goods', function (req, res, next) {
-  // 查找数据库内容，通过mongoose api find() 查找，skip() limit(), 做出限制，获得指定的数据
   let goodModel = Good.find()
-  // goodsModel.sort({ 'salePrice': sort })
 
-  // 执行查找之后，得到的数据作为doc，传递给前台系统，同样还能够将发生的错误报文传递
   goodModel.exec(function (err, doc) {
     if (err) {
       res.json({
@@ -176,7 +170,6 @@ router.post('/editGood', (req, res, next) => {
     type: req.body.type,
     salePrice: req.body.salePrice,
   }
-  console.log(req.body._id)
   Good.findOneAndUpdate({productId: req.body.productId}, { $set: params }, {}, function (err, docs) {
     if (err) {
       res.json({
@@ -264,7 +257,6 @@ router.post('/editBoard', (req, res, next) => {
     reader: 0,
     time: String(new Date()),
   }
-  console.log(req.body._id)
   Board.findByIdAndUpdate(req.body._id, { $set: params } ,{}, function (err, docs) {
     if(err) {
       res.json({

@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 //引入经过mongoose 构建的模型
 var Goods = require('../models/goods');
 var User = require('../models/user');
+var Board = require('../models/boards');
 
 // 连接数据库
 mongoose.connect('mongodb://127.0.0.1:27017/db_shop', {
@@ -42,6 +43,18 @@ router.get('/view', function (req, res, next) {
     },
   };
 
+  Board.find().sort({ time: -1 }).limit(1)
+    .then(doc => {
+      if(doc) {
+        Board.updateOne({ time: doc[0].time },{ $inc: { reader: 1 } }, (res,err) => {
+          console.log(res)
+        })
+      }
+    })
+    .then(err => {
+      console.log(err)
+    })
+
   // 查找数据库内容，通过mongoose api fing() 查找，skip() limit(), 做出限制，获得指定的数据
   let goodsModel = Goods.find(data).skip(skip).limit(pageSize);
   goodsModel.sort({'salePrice': sort})
@@ -65,6 +78,33 @@ router.get('/view', function (req, res, next) {
     }
   })
 });
+
+router.get("/good", (req, res, next) => {
+  let param = {
+    productId: req.query.productId
+  }
+  Good.findOne(param)
+    .then(doc => {
+      if (doc) {
+        res.json({
+          status: '0',
+          msg: '存在商品',
+          result: doc
+        })
+      } else {
+        res.json({
+          status: '1',
+          msg: '错误'
+        })
+      }
+    })
+    .catch(err => {
+      res.json({
+        status: '1',
+        msg: err.message
+      })
+    })
+})
 
 router.post("/addCart", function(req, res, next) {
   let userId = req.cookies.userId;

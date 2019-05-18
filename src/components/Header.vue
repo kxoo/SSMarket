@@ -24,7 +24,7 @@
         </el-menu>
       </el-header>
       <el-menu class="el-menu-demo" mode="horizontal" :router = true>
-        <el-menu-item class="space" index = "/">首页</el-menu-item>
+        <el-menu-item class="space" index = "/list">所有商品</el-menu-item>
         <el-submenu index="1">
           <template slot="title">大球道具</template>
           <el-menu-item index="1-1">网球</el-menu-item>
@@ -37,6 +37,7 @@
         </el-submenu>
         <el-menu-item index="3">配件</el-menu-item>
         <el-menu-item index="4">儿童</el-menu-item>
+        <el-menu-item index="/board">公告</el-menu-item>
       </el-menu>
     </el-container>
   </div>
