@@ -1,9 +1,9 @@
 <template>
   <div class="main">
     <el-row :gutter="12">
-      <el-col :span="6" v-for="item in address" :key="item.addressId" >
-        <el-card shadow="hover" @click="selectItem(item)">
-          <dl style="text-align: left">
+      <el-col :span="6" v-for="item in address" :key="item.addressId" style="height: 12%">
+        <el-card shadow="hover">
+          <dl style="text-align: left" :class="{red: !isshow}"  @click="selectItem(item)">
             <dd class="address">{{'收件人:' + item.userName}}</dd>
             <dd class="address" >{{'收货地址:' + item.streetName}}</dd>
             <dd class="address">{{'联系电话:' + item.tel}}</dd>
@@ -50,6 +50,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      isshow: true,
       dialogFormVisible: false,
       address: [],
       currentAddress: 0,
@@ -130,7 +131,7 @@ export default {
 
     selectItem(item) {
       this.currentAddress = item;
-      axios.post();
+      this.isshow = false
     },
 
     onPress() {
@@ -143,6 +144,7 @@ export default {
             this.$router.push({
               path: '/finishOrder',
               query: {
+                orderId: res.data.result.orderId,
                 addressId: this.currentAddress.addressId,
                 orderTotal: this.$route.query.summary,
               },
@@ -163,6 +165,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+.red
+  color: red;
+  font-size: 14px;
+
 
 .main
   margin-top 32px

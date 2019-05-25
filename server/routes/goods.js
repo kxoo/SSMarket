@@ -79,6 +79,25 @@ router.get('/view', function (req, res, next) {
   })
 });
 
+router.get("/board", (req, res, next) => {
+
+  Board.find().sort({ time: -1 }).limit(1)
+    .then(doc => {
+      if (doc) {
+        Board.updateOne({ time: doc[0].time }, { $inc: { reader: 1 } }, (doc, err) => {
+          return res.json({
+            status: '0',
+            msg: 'board',
+            result: doc
+          })
+        })
+      }
+    })
+    .then(err => {
+      console.log(err)
+    })
+})
+
 router.get("/good", (req, res, next) => {
   let param = {
     productId: req.query.productId

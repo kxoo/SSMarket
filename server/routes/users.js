@@ -366,4 +366,32 @@ router.post('/payment', (req, res, next) => {
     })
 })
 
+router.get("/user", (req, res, next) => {
+  let param = {
+    userId: req.cookies.userId
+  }
+  User.findOne(param)
+    .then(doc => {
+      if (doc) {
+        res.json({
+          status: '0',
+          msg: '存在用户',
+          result: doc
+        })
+      } else {
+        res.json({
+          status: '1',
+          msg: '错误'
+        })
+      }
+    })
+    .catch(err => {
+      res.json({
+        status: '1',
+        msg: err.message
+      })
+    })
+})
+
+
 module.exports = router;

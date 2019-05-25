@@ -39,7 +39,8 @@ app.use(function (req, res, next) {
     req.originalUrl == '/users/logout' ||
     req.originalUrl == '/users/register' ||
     req.path == "/goods/view" ||
-    req.path == "/manage/users"
+    req.path == "/manage/users" ||
+    req.path == "manage/good"
     ) {
       next()
     } else {

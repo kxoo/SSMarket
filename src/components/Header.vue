@@ -3,6 +3,7 @@
     <el-container>
       <!-- // TODO: 需要带个名字显示用户名 this.name -->
       <el-header style="padding: 0">
+
         <el-menu
           :router = true
           class="el-menu-demo"
@@ -15,12 +16,13 @@
             <img style="height: 98%; margin-top: -6px;" src="../assets/icon.png" alt="">
             </el-menu-item>
           <el-menu-item class="whitespace" index = '0'></el-menu-item>
-          <el-menu-item index='1'>
+
+          <el-menu-item index="/cart" style="float: right">购物车</el-menu-item>
+          <el-menu-item index="/order" style="float: right">我的订单</el-menu-item>
+          <el-menu-item index ="" style="float: right"><Login></Login></el-menu-item>
+          <el-menu-item index='1' style="float: right">
             <el-input v-model="input" name ="search" placeholder="搜索商品"></el-input>
           </el-menu-item>
-          <el-menu-item index =""><Login></Login></el-menu-item>
-          <el-menu-item index="/order">我的订单</el-menu-item>
-          <el-menu-item index="/cart">购物车</el-menu-item>
         </el-menu>
       </el-header>
       <el-menu class="el-menu-demo" mode="horizontal" :router = true>
@@ -37,7 +39,8 @@
         </el-submenu>
         <el-menu-item index="3">配件</el-menu-item>
         <el-menu-item index="4">儿童</el-menu-item>
-        <el-menu-item index="/board">公告</el-menu-item>
+        <el-menu-item index="/webSocket" style="float: right"><el-button type="info" plain @onClick="getBoard()">在线咨询</el-button></el-menu-item>
+        <el-menu-item index="/board" style="float: right"><el-button type="info" plain>公告</el-button></el-menu-item>
       </el-menu>
     </el-container>
   </div>
@@ -52,6 +55,7 @@ import Login from '@/components/Login.vue';
 export default {
   data() {
     return {
+
       input: '',
       name: '',
       userName: '',
@@ -66,6 +70,7 @@ export default {
   mounted() {
   },
   methods: {
+
   },
   // components: {
   //   Loading,

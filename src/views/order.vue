@@ -27,8 +27,14 @@
     <el-table-column
       prop="status"
       label="操作">
-      <el-button>编辑</el-button>
-      <el-button type="danger">取消</el-button>
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type=""
+            @click="onPress(scope.$index, scope.row)">查看</el-button>
+        </template>
+      <!-- <el-button @click="this.onPress()">编辑</el-button>
+      <el-button type="danger">取消</el-button> -->
     </el-table-column>
   </el-table>
 </template>
@@ -53,8 +59,10 @@
         .then((res) => {
           if (res.data.status === '0') {
             this.orderList = res.data.result;
-            console.log(this.orderList)
             if (!this.orderList) return Promise.reject();
+            for(let [index,item] in res.data.result) {
+              if(this.orderList[index].orderStatus == 1)this.orderList[index].orderStatus = '完成'
+            }
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
@@ -64,82 +72,16 @@
         });
     },
 
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-        this.handleSelectionChange();
-      }
-    },
-
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-      this.orderList.forEach((res) => {
-        res.checked = 0;
-        this.handleEdit(res);
+    onPress(index ,row) {
+      this.$router.push({
+        path: '/finishOrder',
+        query: {
+          orderId: row.orderId,
+          addressId: row.addressId,
+          orderTotal: row.total,
+        },
       });
-
-      this.summary = 0;
-      for (const item of this.multipleSelection) {
-        item.checked = 1;
-        this.summary += (Number(item.productNum) * Number(item.salePrice));
-        this.handleEdit(item);
-      }
-    },
-
-    handleEdit(row) {
-      axios.post('users/cartEdit', {
-        productId: row.productId,
-        productNum: row.productNum,
-        checked: row.checked,
-      })
-        .then((res) => {
-          if (res.data.status !== '0') return Promise.reject(res);
-        })
-        .catch((e) => {
-          this.$message({
-            message: `失败, ${e.msg}`,
-            type: 'error',
-          });
-        });
-    },
-
-    handleDelete(index, row) {
-      axios.post('users/cartDel', { productId: row.productId })
-        .then((res) => {
-          if (res.data.status === '0') {
-            return this.init();
-          }
-          return Promise.reject(res);
-        })
-        .then(() => {
-          this.$message({
-            message: '修改成功',
-          });
-        })
-        .catch((e) => {
-          this.$message({
-            message: `失败, ${e}`,
-            type: 'error',
-          });
-        });
-    },
-
-    onPress() {
-      if (!this.multipleSelection) {
-        this.$message({
-          message: '请选择商品进行购买',
-          type: 'error',
-        });
-      } else {
-        this.$router.push({
-          path: '/address',
-          query: { summary: this.summary },
-        });
-      }
+      console.log(index, row)
     },
   },
 };

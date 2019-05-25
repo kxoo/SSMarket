@@ -1,16 +1,28 @@
 <template>
   <div class="main">
+    <el-dialog title="商品详情" :visible.sync="dialogTableVisible">
+      <el-card style=" margin: 4px ; border: 0 " shadow="hover">
+        <img :src="`${publicPath}static/img/${item.productImage}`" class="image">
+        <div style="padding:14px 4px;">
+          <div class="item_price">¥{{item.salePrice}}.00</div>
+          <div class="item_name clearfix">{{item.productName}}</div>
+          <div class="bottom clearfix">
+            <el-button type="text" class="button" @click="addCart(item.productId)">加入购物车</el-button>
+          </div>
+        </div>
+      </el-card>
+    </el-dialog>
     <dialog v-bind:item="data" v-bind:dialogTableVisible="dialogTableVisible"></Dialog>
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img class="slide-img" :src="`${publicPath}static/img/swiperOne.jpg`" alt="" @click="selectItem(String(201710013))">
+          <img class="slide-img" :src="`${publicPath}static/img/swiperOne.jpg`" alt="" @click="getGood(String(201710013))">
         </div>
         <div class="swiper-slide">
-          <img class="slide-img" :src="`${publicPath}static/img/swiperTwo.jpg`" alt="" @click="selectItem(String(201710014))">
+          <img class="slide-img" :src="`${publicPath}static/img/swiperTwo.jpg`" alt="" @click="getGood(String(201710014))">
         </div>
         <div class="swiper-slide">
-          <img class="slide-img" :src="`${publicPath}static/img/swiperThree.jpg`" alt="" @click="selectItem(String(201710015))">
+          <img class="slide-img" :src="`${publicPath}static/img/swiperThree.jpg`" alt="" @click="getGood(String(201710015))">
         </div>
       </div>
       <!-- Add Pagination -->
@@ -45,10 +57,11 @@
 import Swiper from 'swiper';
 import Item from '@/components/Item.vue';
 import Dialog from '@/components/Dialog.vue';
-
+import axios from 'axios'
 export default {
   data() {
     return {
+      item : '',
       data: '0000',
       dialogTableVisible: false,
       publicPath: process.env.BASE_URL,
@@ -125,7 +138,35 @@ export default {
       this.data = id;
       this.dialogTableVisible= true;
       console.log(123)
-    }
+    },
+    getGood(id) {
+      // 选择参数
+      const param = {
+        productId: id,
+      };
+      // 发送请求，根据获取的结果获得参数
+      axios.get('/manage/good', {
+        params: param,
+      })
+        .then((res) => {
+          if (res.data.status === '0') {
+            if (res.data.result.count === 0) return ;
+            // this.item = true;
+            // if (next) return this.goodList = this.goodList.concat(res.data.result.list);
+            this.item = (res.data.result);
+            this.dialogTableVisible = true
+          } else {
+            this.$message({
+              message: `失败, ${res.data.msg}`,
+              type: 'error',
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
     // getGoodList() {
     //   axios.get('/goods').then((result) => {
     //     const res = result.data;
@@ -133,7 +174,8 @@ export default {
     //   });
     // },
   },
-};
+
+ };
 
 </script>
 

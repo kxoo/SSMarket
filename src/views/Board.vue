@@ -1,5 +1,13 @@
 <template>
-  <el-table
+<div>
+        <el-dialog :title="item.header" :visible.sync="dialogTableVisible">
+          <el-card style=" margin: 2px ; border: 0 " shadow="hover">
+            <div style="padding:6px 2px;">
+              <div class="item_price">{{item.content}}</div>
+            </div>
+          </el-card>
+      </el-dialog>
+        <el-table
     :data="tableData"
     stripe
     style="width: 100%">
@@ -11,6 +19,12 @@
       prop="header"
       label="标题"
       >
+      <template slot-scope="scope">
+          <el-button
+            size="mini"
+
+            @click="board(scope.$index, scope.row)">{{scope.row.header}}</el-button>
+        </template>
     </el-table-column>
     <el-table-column
       prop="time"
@@ -20,6 +34,8 @@
      >
     </el-table-column>
   </el-table>
+</div>
+
 </template>
 
 <script>
@@ -27,6 +43,10 @@ import axios from 'axios';
   export default {
     data() {
       return {
+        dialogTableVisible: false,
+        item: {
+          header: ''
+        },
         tableData: {}
       }
     },
@@ -43,7 +63,17 @@ import axios from 'axios';
         .catch(e => {
           console.log(e)
         })
-      }
+      },
+       board(index,row){
+         console.log(row)
+
+      this.item = row
+      console.log(this.item)
+      this.dialogTableVisible = true
+    }
+
+
+
     }
 
   }
