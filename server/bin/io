@@ -16,6 +16,7 @@ var io=new socketIo(server);//将socket.io注入express模块
 // });
 
 server.listen(2743);//express 监听 8080 端口，因为本机80端口已被暂用
+
 //每个客户端socket连接时都会触发 connection 事件
 io.on("connection",function (clientSocket) {
     // socket.io 使用 emit(eventname,data) 发送消息，使用on(eventname,callback)监听消息

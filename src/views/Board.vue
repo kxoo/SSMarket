@@ -40,41 +40,41 @@
 
 <script>
 import axios from 'axios';
-  export default {
-    data() {
-      return {
-        dialogTableVisible: false,
-        item: {
-          header: ''
-        },
-        tableData: {}
-      }
-    },
-    mounted() {
-      this.init()
-    },
-    methods: {
-      init() {
-        axios.get('manage/boards')
-        .then( res => {
-          this.tableData = res.data.result;
-          console.log(this.tableData)
-        })
-        .catch(e => {
-          console.log(e)
-        })
+
+export default {
+  data() {
+    return {
+      dialogTableVisible: false,
+      item: {
+        header: '',
       },
-       board(index,row){
-         console.log(row)
+      tableData: {},
+    };
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      axios.get('manage/boards')
+        .then((res) => {
+          this.tableData = res.data.result;
+          console.log(this.tableData);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    board(index, row) {
+      console.log(row);
 
-      this.item = row
-      console.log(this.item)
-      this.dialogTableVisible = true
-    }
+      this.item = row;
+      console.log(this.item);
+      this.dialogTableVisible = true;
+    },
 
 
+  },
 
-    }
-
-  }
+};
 </script>

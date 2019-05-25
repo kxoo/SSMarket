@@ -57,11 +57,12 @@
 import Swiper from 'swiper';
 import Item from '@/components/Item.vue';
 import Dialog from '@/components/Dialog.vue';
-import axios from 'axios'
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      item : '',
+      item: '',
       data: '0000',
       dialogTableVisible: false,
       publicPath: process.env.BASE_URL,
@@ -75,7 +76,7 @@ export default {
           img: 'img/1.jpg',
         },
         {
-          title: `2018 A2000 1789 11.5 INFIELD/PITCHER'S BASEBALL GLOVE`,
+          title: '2018 A2000 1789 11.5 INFIELD/PITCHER\'S BASEBALL GLOVE',
           message: '',
           productId: '201710005',
           col: 12,
@@ -101,7 +102,7 @@ export default {
         {
           title: 'EVOLUTION BLACK EDITION BASKETBALL',
           message: '',
-          productId: "201710009",
+          productId: '201710009',
           col: 8,
           price: '360',
           img: 'img/9.jpg',
@@ -136,8 +137,8 @@ export default {
   methods: {
     selectItem(id) {
       this.data = id;
-      this.dialogTableVisible= true;
-      console.log(123)
+      this.dialogTableVisible = true;
+      console.log(123);
     },
     getGood(id) {
       // 选择参数
@@ -150,11 +151,11 @@ export default {
       })
         .then((res) => {
           if (res.data.status === '0') {
-            if (res.data.result.count === 0) return ;
+            if (res.data.result.count === 0) return;
             // this.item = true;
             // if (next) return this.goodList = this.goodList.concat(res.data.result.list);
             this.item = (res.data.result);
-            this.dialogTableVisible = true
+            this.dialogTableVisible = true;
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,
@@ -175,7 +176,7 @@ export default {
     // },
   },
 
- };
+};
 
 </script>
 

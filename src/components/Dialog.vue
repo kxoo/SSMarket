@@ -14,35 +14,35 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   data() {
     return {
       publicPath: process.env.BASE_URL,
       data: {},
-    }
+    };
   },
   props: {
     item: {
       type: String,
-      required: true
+      required: true,
     },
     dialogTableVisible: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  updated: ()=> {
-    console.log(456)
+  updated: () => {
+    console.log(456);
     axios.get('goods/good', {
       params: {
-        productId: productId
-      }
+        productId,
+      },
     })
-    .then(res => {
-      this.data = res.data.result
-    })
-
+      .then((res) => {
+        this.data = res.data.result;
+      });
   },
 
-}
+};
 </script>

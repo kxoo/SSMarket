@@ -131,7 +131,7 @@ export default {
 
     selectItem(item) {
       this.currentAddress = item;
-      this.isshow = false
+      this.isshow = false;
     },
 
     onPress() {

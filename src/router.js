@@ -8,8 +8,8 @@ import Cart from './views/Cart.vue';
 import Register from './views/Register.vue';
 import Address from './views/Address.vue';
 import FinishOrder from './views/FinishOrder.vue';
-import Order from './views/order.vue'
-import Board from './views/Board.vue'
+import Order from './views/order.vue';
+import Board from './views/Board.vue';
 
 Vue.use(Router);
 
@@ -35,7 +35,7 @@ export default new Router({
     {
       path: '/board',
       name: 'board',
-      component: Board
+      component: Board,
     },
     {
       path: '*',

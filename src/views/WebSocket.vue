@@ -32,91 +32,89 @@
 import io from 'socket.io-client';
 
 export default {
-data() {
-  return{
-    dynamicValidateForm: {
-          domains: [{
-            value: ''
-          }],
-          client: [{
-            value: ''
-          }],
-          data: '12'
-        },
-  }
-},
-mounted() {
-  this.socket = io.connect('http://localhost:2743', {
-    transports: ['websocket'],
-    reconnectionDelay: 2 * 1000,
-    reconnectionDelayMax: 5 * 1000
-  })
+  data() {
+    return {
+      dynamicValidateForm: {
+        domains: [{
+          value: '',
+        }],
+        client: [{
+          value: '',
+        }],
+        data: '12',
+      },
+    };
+  },
+  mounted() {
+    this.socket = io.connect('http://localhost:2743', {
+      transports: ['websocket'],
+      reconnectionDelay: 2 * 1000,
+      reconnectionDelayMax: 5 * 1000,
+    });
 
-  this.socket.on("receive",(data) => {
-    if(!this.addDomain) return
-    this.addDomain(JSON.stringify(data))
-  });
+    this.socket.on('receive', (data) => {
+      if (!this.addDomain) return;
+      this.addDomain(JSON.stringify(data));
+    });
 
-  this.socket.on('connect', () => {
-    console.log('连接socket')
-  })
+    this.socket.on('connect', () => {
+      console.log('连接socket');
+    });
 
-  this.socket.on('connecting', () => {
-    console.log('连接中socket')
-  })
+    this.socket.on('connecting', () => {
+      console.log('连接中socket');
+    });
 
-  this.socket.on('error', (msg) => {
+    this.socket.on('error', (msg) => {
     // console.log('出错了socket', msg)
-  })
+    });
 
-  this.socket.on('connect_failed', (msg) => {
+    this.socket.on('connect_failed', (msg) => {
 
-  })
+    });
 
-  this.socket.on('connect_timeout', e => {
-    console.log(e.response, 'connect e---rr')
-  })
-},
-methods: {
-  addDomain(item) {
-    this.dynamicValidateForm.domains.push({
-      value: item,
-      key: Date.now()
+    this.socket.on('connect_timeout', (e) => {
+      console.log(e.response, 'connect e---rr');
     });
   },
-  addClient(item) {
-    this.dynamicValidateForm.client.push({
-      value: item,
-      key: Date.now()
-    });
-  },
-  submitForm(formName) {
-    this.$refs[formName].validate((valid) => {
-      if (valid) {
-        this.socket.emit("send", this.dynamicValidateForm.data, res => {
-          if (typeof res === 'object' && res.error) {
-            Promise.reject(res.message ? res.message : '请求数据验证失败, 请联系管理员!')
-          }
-          else {
-            console.log(this.dynamicValidateForm.data)
-            this.addClient(String(this.dynamicValidateForm.data))
-            this.dynamicValidateForm.data = ''
-            console.log(res)
-            Promise.resolve(res)
-          }
-          })
-      } else {
-        console.log('error submit!!');
-        return false;
-      }
-    });
-  },
-  resetForm(formName) {
-    this.$refs[formName].resetFields();
-  }
+  methods: {
+    addDomain(item) {
+      this.dynamicValidateForm.domains.push({
+        value: item,
+        key: Date.now(),
+      });
+    },
+    addClient(item) {
+      this.dynamicValidateForm.client.push({
+        value: item,
+        key: Date.now(),
+      });
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.socket.emit('send', this.dynamicValidateForm.data, (res) => {
+            if (typeof res === 'object' && res.error) {
+              Promise.reject(res.message ? res.message : '请求数据验证失败, 请联系管理员!');
+            } else {
+              console.log(this.dynamicValidateForm.data);
+              this.addClient(String(this.dynamicValidateForm.data));
+              this.dynamicValidateForm.data = '';
+              console.log(res);
+              Promise.resolve(res);
+            }
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
 
-}
+  },
 
-}
+};
 </script>
-

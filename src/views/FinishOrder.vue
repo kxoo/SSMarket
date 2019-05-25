@@ -47,37 +47,38 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   data() {
     return {
       data: [],
-      address:[],
-      total: 0
-    }
+      address: [],
+      total: 0,
+    };
   },
   created() {
-    this.getOrder()
+    this.getOrder();
   },
-methods: {
+  methods: {
 
-getOrder() {
-  axios.get('users/user')
-  .then(res => {
-    console.log(res.data.result)
-    const item = this.$route.query
-    console.log(item)
-    for(let index in res.data.result.orderList) {
-      const message = Reflect.get(res.data.result.orderList, index)
-      if(message.orderId === item.orderId) {
-        this.data = message.goodsList;
-        this.address = message.addressInfo
-        console.log(this.data,this.address)
-        this.total = message.orderTotal;
-      }
-    }
-  })
-}
-}
+    getOrder() {
+      axios.get('users/user')
+        .then((res) => {
+          console.log(res.data.result);
+          const item = this.$route.query;
+          console.log(item);
+          for (const index in res.data.result.orderList) {
+            const message = Reflect.get(res.data.result.orderList, index);
+            if (message.orderId === item.orderId) {
+              this.data = message.goodsList;
+              this.address = message.addressInfo;
+              console.log(this.data, this.address);
+              this.total = message.orderTotal;
+            }
+          }
+        });
+    },
+  },
 };
 </script>
 

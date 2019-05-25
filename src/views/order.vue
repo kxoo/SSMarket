@@ -40,9 +40,9 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
 
-  export default {
+export default {
   data() {
     return {
       orderList: [],
@@ -60,8 +60,8 @@
           if (res.data.status === '0') {
             this.orderList = res.data.result;
             if (!this.orderList) return Promise.reject();
-            for(let [index,item] in res.data.result) {
-              if(this.orderList[index].orderStatus == 1)this.orderList[index].orderStatus = '完成'
+            for (const [index, item] in res.data.result) {
+              if (this.orderList[index].orderStatus == 1) this.orderList[index].orderStatus = '完成';
             }
           } else {
             this.$message({
@@ -72,7 +72,7 @@
         });
     },
 
-    onPress(index ,row) {
+    onPress(index, row) {
       this.$router.push({
         path: '/finishOrder',
         query: {
@@ -81,7 +81,7 @@
           orderTotal: row.total,
         },
       });
-      console.log(index, row)
+      console.log(index, row);
     },
   },
 };

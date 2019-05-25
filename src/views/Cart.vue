@@ -173,12 +173,11 @@ export default {
           message: '请选择商品进行购买',
           type: 'error',
         });
-      } else {
-        this.$router.push({
-          path: '/address',
-          query: { summary: this.summary },
-        });
       }
+      this.$router.push({
+        path: '/address',
+        query: { summary: this.summary },
+      });
     },
   },
 };
