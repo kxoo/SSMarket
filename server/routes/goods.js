@@ -24,6 +24,25 @@ mongoose.connection.on("disconnected", function () {
 })
 
 
+router.get('/getBoard', (req, res, next) => {
+  Board.find().sort({ time: -1 }).limit(1)
+    .then(doc => {
+      if (doc) {
+        Board.updateOne({ time: doc[0].time }, { $inc: { reader: 1 } }, (res, err) => {
+          console.log(res)
+        })
+        res.json({
+          status: '0',
+          msg: '显示公告',
+          result: doc
+        })
+      }
+    })
+    .then(err => {
+      console.log(err)
+    })
+})
+
 /* GET goodss listing. */
 router.get('/view', function (req, res, next) {
   // 查看商品请求，能够根据请求商品显示的数量和页数，进行指定商品的请求
@@ -43,17 +62,6 @@ router.get('/view', function (req, res, next) {
     },
   };
 
-  Board.find().sort({ time: -1 }).limit(1)
-    .then(doc => {
-      if(doc) {
-        Board.updateOne({ time: doc[0].time },{ $inc: { reader: 1 } }, (res,err) => {
-          console.log(res)
-        })
-      }
-    })
-    .then(err => {
-      console.log(err)
-    })
 
   // 查找数据库内容，通过mongoose api fing() 查找，skip() limit(), 做出限制，获得指定的数据
   let goodsModel = Goods.find(data).skip(skip).limit(pageSize);

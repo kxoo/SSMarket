@@ -8,7 +8,7 @@
           <span class="box_message">{{item.message}}</span>
           <span class="box_price">售价：{{item.price}}</span>
           <div class="bottom clearfix">
-            <el-button type="text" class="button">加入购物车</el-button>
+            <el-button type="text" class="button" @click="addCart(item.productId)">加入购物车</el-button>
           </div>
         </div>
       </el-card>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -29,6 +31,32 @@ export default {
       required: true,
     },
   },
+  methods: {
+    addCart(productId) {
+      axios.post('/goods/addCart', {
+        productId,
+      })
+        .then((res) => {
+          if (res.data.status == 0) {
+            this.$message({
+              message: res.data.msg,
+            });
+            console.log(res.data.msg);
+          } else {
+            this.$message({
+              message: `失败, ${res.data.msg}`,
+              type: 'error',
+            });
+          }
+        })
+        .catch((e) => {
+          this.$message({
+            message: `失败, ${e}`,
+            type: 'error',
+          });
+        });
+    },
+  }
 };
 </script>
 

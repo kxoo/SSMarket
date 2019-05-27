@@ -31,16 +31,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 登录验证
 app.use(function (req, res, next) {
-  if (req.cookies.userId) {
+  if (req.cookies.userId || req.cookies.manageId) {
     next()
   } else {
-    console.log(req.path)
+    console.log(req.path, req.originalUrl)
     if(req.originalUrl == '/users/login' ||
     req.originalUrl == '/users/logout' ||
     req.originalUrl == '/users/register' ||
-    req.path == "/goods/view" ||
-    req.path == "/manage/users" ||
-    req.path == "manage/good"
+      req.path == "/goods/view" ||
+      req.path == "/goods/getBoard" ||
+      req.path == "/manage/good" ||
+      req.originalUrl == '/manage/login'
     ) {
       next()
     } else {

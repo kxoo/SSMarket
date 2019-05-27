@@ -1,32 +1,27 @@
 <template>
-<el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
-  <el-form-item
-  v-for="(client, index) in dynamicValidateForm.client"
-    :label="'我' + index"
-    :key="client.key"
-    :prop="'client.' + index + '.value'"
+<div>
+  <div   class="chat">
+    <div
+  v-for="(domain, index) in dynamicValidateForm.domains"
+  :key="index"
   >
-    <el-input disabled v-model="dynamicValidateForm.client"></el-input>
-  </el-form-item>
+    <span>{{domain.value}}</span>
+  </div>
+  </div>
+
+  <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" class="from">
+
   <el-form-item
-    v-for="(domain, index) in dynamicValidateForm.domains"
-    :label="'主页' + index"
-    :key="domain.key"
-    :prop="'domains.' + index + '.value'"
-  >
-    <el-input disabled v-model="domain.value"></el-input>
-  </el-form-item>
-  <el-form-item
-    label="发送"
     :prop="dynamicValidateForm.data"
   >
-    <el-input v-model="dynamicValidateForm.data"></el-input>
+    <el-input  type="textarea" :rows="6" placeholder="请输入内容" v-model="dynamicValidateForm.data"></el-input>
   </el-form-item>
   <el-form-item>
     <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-    <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
   </el-form-item>
 </el-form>
+</div>
+
 </template>
 <script>
 import io from 'socket.io-client';
@@ -86,7 +81,7 @@ export default {
     },
     addClient(item) {
       this.dynamicValidateForm.client.push({
-        value: item,
+        value: `”我“:"${item}"`,
         key: Date.now(),
       });
     },
@@ -94,16 +89,16 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.socket.emit('send', this.dynamicValidateForm.data, (res) => {
+            console.log(123)
             if (typeof res === 'object' && res.error) {
+              console.log(123)
               Promise.reject(res.message ? res.message : '请求数据验证失败, 请联系管理员!');
             } else {
-              console.log(this.dynamicValidateForm.data);
-              this.addClient(String(this.dynamicValidateForm.data));
-              this.dynamicValidateForm.data = '';
-              console.log(res);
               Promise.resolve(res);
             }
           });
+          this.addDomain(String(`"我":"${this.dynamicValidateForm.data}"`));
+          this.dynamicValidateForm.data = '';
         } else {
           console.log('error submit!!');
           return false;
@@ -118,3 +113,19 @@ export default {
 
 };
 </script>
+
+<style lang="stylus" scoped>
+.from
+  position fixed
+  left 0
+  bottom 400
+  width 100%
+
+.chat
+  border 1px solid #434
+  height 400px
+  max-height 400px
+  overflow scroll
+  text-align left
+
+</style>

@@ -11,6 +11,7 @@ const userSchema = new Schema({
   "userEmail": String,
   "userTel": String,
   "userPwd": String,
+  "wallet": Number,
   "orderList": Array,
   "cartList": [{
     "productId": String,

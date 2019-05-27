@@ -7,6 +7,42 @@ var mongoose = require('mongoose');
 var Good = require('../models/goods');
 var User = require('../models/user');
 var Board = require('../models/boards');
+var Manage = require('../models/manages');
+
+router.post("/login", (req, res, next) => {
+  let param = {
+    manager: req.body.userName,
+    password: req.body.userPwd,
+  }
+  console.log(param)
+  Manage.findOne(param)
+    .then(doc => {
+      if (doc) {
+        res.cookie("manageId", doc.manageId, {
+          path: '/',
+          maxAge: 1000 * 60 * 60
+        });
+        res.json({
+          status: '0',
+          msg: '登陆成功',
+          result: {
+            manager: res.manager
+          }
+        })
+      } else {
+        res.json({
+          status: '1',
+          msg: '用户名或密码错误'
+        })
+      }
+    })
+    .catch(err => {
+      res.json({
+        status: '1',
+        msg: err.message
+      })
+    })
+})
 
 router.get('/users', function (req, res, next) {
   let userModel = User.find()
@@ -18,10 +54,6 @@ router.get('/users', function (req, res, next) {
         message: err.message
       })
     } else {
-      res.cookie("userId", 89757, {
-        path: '/',
-        maxAge: 6000 * 60 * 60
-      });
       res.json({
         status: '0',
         msg: '显示用户',
@@ -122,12 +154,20 @@ router.get("/good", (req, res, next) => {
     .catch(err => {
       res.json({
         status: '1',
-        msg: err.message
+        msg: err
       })
     })
 })
 
-// 注册账号
+router.post("/reject", (req, res, next) => {
+  userId = req.body.userId
+  reject = req.body.reject
+  User.updateOne({ userId }, { $inc: { wallet: reject } }, (res, err) => {
+    console.log(res)
+  })
+})
+
+// 添加商品
 router.post("/addGood", (req, res, next) => {
   let params = {
     productId: Math.ceil(Math.random() * 100000000),

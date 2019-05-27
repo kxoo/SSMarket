@@ -1,5 +1,13 @@
 <template>
   <div class="main">
+    <el-dialog title="最新公告" :visible.sync="boardVisible">
+      <el-card style=" margin: 4px ; border: 0 " shadow="hover">
+        <div style="padding:2px 4px;">
+          <div class="boardHeader">{{boardItem.header}}</div>
+          <div class="">{{boardItem.content}}</div>
+        </div>
+      </el-card>
+    </el-dialog>
     <el-dialog title="商品详情" :visible.sync="dialogTableVisible">
       <el-card style=" margin: 4px ; border: 0 " shadow="hover">
         <img :src="`${publicPath}static/img/${item.productImage}`" class="image">
@@ -12,7 +20,6 @@
         </div>
       </el-card>
     </el-dialog>
-    <dialog v-bind:item="data" v-bind:dialogTableVisible="dialogTableVisible"></Dialog>
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
@@ -33,7 +40,6 @@
     </div>
     <item v-bind:goodList="goodList" ></item>
     <div class="">
-      <!-- <div class="banner_tile"><h2>如何打造人民喜闻乐见的体育商城</h2></div> -->
       <div class="banner_main">
         <div class="banner_item">
           <img :src="`${publicPath}static/img/banner1.jpg`" alt="" class="banner_img">
@@ -53,10 +59,8 @@
 </template>
 
 <script>
-// import axios from 'axios';
 import Swiper from 'swiper';
 import Item from '@/components/Item.vue';
-import Dialog from '@/components/Dialog.vue';
 import axios from 'axios';
 
 export default {
@@ -65,6 +69,8 @@ export default {
       item: '',
       data: '0000',
       dialogTableVisible: false,
+      boardVisible: false,
+      boardItem: {},
       publicPath: process.env.BASE_URL,
       goodList: [
         {
@@ -112,9 +118,9 @@ export default {
   },
   components: {
     Item,
-    Dialog,
   },
-  mounted: () => {
+  mounted() {
+    this.getBoard()
     // eslint-disable-next-line
     new Swiper('.swiper-container', {
       loop: true,
@@ -138,7 +144,15 @@ export default {
     selectItem(id) {
       this.data = id;
       this.dialogTableVisible = true;
-      console.log(123);
+    },
+    getBoard() {
+      axios.get('/goods/getBoard')
+      .then(res => {
+        this.boardItem = res.data.result[0]
+        console.log(this.boardItem)
+        this.boardVisible = true
+
+      })
     },
     getGood(id) {
       // 选择参数
@@ -167,7 +181,30 @@ export default {
           console.log(e);
         });
     },
-
+    addCart(productId) {
+      axios.post('/goods/addCart', {
+        productId,
+      })
+        .then((res) => {
+          if (res.data.status == 0) {
+            this.$message({
+              message: res.data.msg,
+            });
+            console.log(res.data.msg);
+          } else {
+            this.$message({
+              message: `失败, ${res.data.msg}`,
+              type: 'error',
+            });
+          }
+        })
+        .catch((e) => {
+          this.$message({
+            message: `失败, ${e}`,
+            type: 'error',
+          });
+        });
+    },
     // getGoodList() {
     //   axios.get('/goods').then((result) => {
     //     const res = result.data;
@@ -233,6 +270,9 @@ export default {
 
 .banner_img
   width 100%
+
+.boardHeader
+  font-size 1.4rem
 
 h2
   font-family Biotif,"Noto Sans, Noto Sans JP, Noto Sans KR",Helvetica

@@ -322,6 +322,10 @@ router.post('/payment', (req, res, next) => {
     if (err) return Promise.reject(err);
   })
     .then(doc => {
+      doc.wallet -= orderTotal;
+      User.updateOne({ userId }, { $inc: { wallet: -orderTotal } }, (res, err) => {
+        console.log(res)
+      })
       let address = '';
       let goodsList = [];
       let orderId = `${Math.floor(Math.random() * 10)}${new Date().getTime()}${Math.floor(Math.random() * 10)}`;

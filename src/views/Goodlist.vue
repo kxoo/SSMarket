@@ -77,8 +77,6 @@ export default {
   mounted() {
     this.getGoodlist();
   },
-  components: {
-  },
   methods: {
     // 获取商品列表，根据前台指定的参数提交给数据库进行查询
     getGoodlist(next) {

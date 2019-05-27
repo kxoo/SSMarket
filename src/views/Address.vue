@@ -1,21 +1,22 @@
 <template>
   <div class="main">
     <el-row :gutter="12">
-      <el-col :span="6" v-for="item in address" :key="item.addressId" style="height: 12%">
-        <el-card shadow="hover">
-          <dl style="text-align: left" :class="{red: !isshow}"  @click="selectItem(item)">
-            <dd class="address">{{'收件人:' + item.userName}}</dd>
-            <dd class="address" >{{'收货地址:' + item.streetName}}</dd>
-            <dd class="address">{{'联系电话:' + item.tel}}</dd>
-          </dl>
-          <div style="text-align: right">
-            <el-button type="info" plain icon="el-icon-delete" @click="delAddress(item)"></el-button>
-          </div>
-        </el-card>
-      </el-col>
+      <el-checkbox-group v-model="ruleForm.type">
+        <el-col :span="8" v-for="item in address" :key="item.addressId" style="height: 12%">
+            <el-checkbox-button :label="item.addressId" :name="item.addressId">
+            <div style="text-align: left"  @click="selectItem(item)">
+              <div class="address">{{'收件人:' + item.userName}}</div>
+              <div class="address" >{{'收货地址:' + item.streetName}}</div>
+              <div class="address">{{'联系电话:' + item.tel}}</div>
+            </div>
+            <div style="text-align: right">
+              <el-button type="info" plain icon="el-icon-delete" @click="delAddress(item)"></el-button>
+            </div>
+          </el-checkbox-button>
+        </el-col>
+      </el-checkbox-group>
     </el-row>
     <el-button type="text" @click="dialogFormVisible = true" class="addrButton">添加新的地址</el-button>
-
     <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="收件人" :label-width="formLabelWidth">
@@ -50,6 +51,9 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      ruleForm:{
+        type: []
+      },
       isshow: true,
       dialogFormVisible: false,
       address: [],
