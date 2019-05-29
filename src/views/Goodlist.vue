@@ -74,14 +74,21 @@ export default {
       ],
     };
   },
-  mounted() {
+  updated() {
     this.getGoodlist();
+  },
+  computed: {
+    type() {
+      console.log(this.$route.param.id)
+      return this.$route.param.id
+      }
   },
   methods: {
     // 获取商品列表，根据前台指定的参数提交给数据库进行查询
     getGoodlist(next) {
       // 选择参数
       const param = {
+        id: this.$route.params.id,
         page: this.page,
         pageSize: this.pageSize,
         startPrice: this.priceChecked.startPrice,

@@ -139,7 +139,7 @@ export default {
     },
 
     onPress() {
-      axios.post('users/payMent', {
+      axios.post('users/createOrder', {
         addressId: this.currentAddress.addressId,
         orderTotal: this.$route.query.summary,
       })

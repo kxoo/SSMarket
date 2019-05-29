@@ -53,8 +53,14 @@ export default {
   },
   methods: {
     init() {
-      axios.get('users/order')
+      console.log(this.$router)
+      axios.get('goods/search', {
+        params: {
+          search: this.$route.query.search
+        }
+      })
         .then((res) => {
+          console.log(res)
           if (res.data.status === '0') {
             this.orderList = res.data.result;
             if (!this.orderList) return Promise.reject();
@@ -62,7 +68,6 @@ export default {
               if (this.orderList[index].orderStatus == 1) this.orderList[index].orderStatus = '完成';
               if (this.orderList[index].orderStatus == 0) this.orderList[index].orderStatus = '未完成';
             }
-
           } else {
             this.$message({
               message: `失败, ${res.data.msg}`,

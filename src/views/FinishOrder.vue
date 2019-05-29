@@ -41,6 +41,7 @@
       <el-input v-model="address.streetName" disabled></el-input>
     </el-form-item>
   </el-form>
+  <el-button @click="onPress()" v-if="!display">付款</el-button>
   </div>
 </template>
 
@@ -51,33 +52,54 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      userId: '',
       data: [],
       address: [],
       total: 0,
+      orderId: 0
     };
+  },
+  computed: {
+    display() {
+      console.log(this.$store.state.status)
+      return this.$store.state.status
+    }
   },
   created() {
     this.getOrder();
   },
   methods: {
-
     getOrder() {
       axios.get('users/user')
         .then((res) => {
-          console.log(res.data.result);
           const item = this.$route.query;
-          console.log(item);
+          this.userId = res.data.result.userId
+          this.$store.commit('set_wallet', res.data.result.wallet)
           for (const index in res.data.result.orderList) {
             const message = Reflect.get(res.data.result.orderList, index);
             if (message.orderId === item.orderId) {
+              this.orderId = message.orderId;
               this.data = message.goodsList;
               this.address = message.addressInfo;
-              console.log(this.data, this.address);
               this.total = message.orderTotal;
+              this.$store.commit('set_status', message.orderStatus)
+              return
             }
           }
         });
     },
+    onPress() {
+      axios.post('users/payment', {
+        userId: this.userId,
+        orderId: this.orderId
+      })
+      .then(res => {
+        this.$store.commit('set_wallet', res.data.result.wallet)
+        this.$message({
+          message: `购买成功`,
+        });
+      })
+    }
   },
 };
 </script>

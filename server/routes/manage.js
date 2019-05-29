@@ -1,20 +1,48 @@
 // 引入express 作为后端项目
 var express = require('express');
+const path = require('path')
+
 var router = express.Router();
 var mongoose = require('mongoose');
+var multer = require('multer')
+const app = express()
 
+// var upload = multer({ dest: 'uploads/' })
+// app.use(express.static(path.join(__dirname, 'public')));
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../public/static/img');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+})
+
+
+var upload = multer({ storage: storage })
 //引入经过mongoose 构建的模型
 var Good = require('../models/goods');
 var User = require('../models/user');
 var Board = require('../models/boards');
 var Manage = require('../models/manages');
 
+router.post('/upload', upload.single('avatar'), (req, res, next) => {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+
+  res.json({
+    status: '0',
+    msg: '存在',
+    result: req.file.path
+  })
+});
+
 router.post("/login", (req, res, next) => {
   let param = {
     manager: req.body.userName,
     password: req.body.userPwd,
   }
-  console.log(param)
   Manage.findOne(param)
     .then(doc => {
       if (doc) {
@@ -312,7 +340,5 @@ router.post('/editBoard', (req, res, next) => {
     })
   })
 })
-
-
 
 module.exports = router

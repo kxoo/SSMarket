@@ -23,6 +23,21 @@ mongoose.connection.on("disconnected", function () {
   console.log('连接disconnected');
 })
 
+router.get("/search", (req, res, next) => {
+  Goods.find({ $text: { $search: req.query.search } })
+    .then(doc => {
+      if (doc) {
+          return res.json({
+            status: '0',
+            msg: 'search',
+            result: doc
+          })
+      }
+    })
+    .then(err => {
+      console.log(err)
+    })
+})
 
 router.get('/getBoard', (req, res, next) => {
   Board.find().sort({ time: -1 }).limit(1)
@@ -62,8 +77,9 @@ router.get('/view', function (req, res, next) {
     },
   };
 
+  if(req.query.id !== 'all') data.type = req.query.id
 
-  // 查找数据库内容，通过mongoose api fing() 查找，skip() limit(), 做出限制，获得指定的数据
+  // 查找数据库内容，通过mongoose api find() 查找，skip() limit(), 做出限制，获得指定的数据
   let goodsModel = Goods.find(data).skip(skip).limit(pageSize);
   goodsModel.sort({'salePrice': sort})
 
@@ -88,7 +104,6 @@ router.get('/view', function (req, res, next) {
 });
 
 router.get("/board", (req, res, next) => {
-
   Board.find().sort({ time: -1 }).limit(1)
     .then(doc => {
       if (doc) {

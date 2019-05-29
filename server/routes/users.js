@@ -80,7 +80,8 @@ router.post("/login", (req, res, next) => {
           status: '0',
           msg: '登陆成功',
           result: {
-            userName: res.userName
+            userName: doc.userName,
+            wallet: doc.wallet
           }
         })
       } else {
@@ -313,7 +314,7 @@ router.post('/delAddress', (req, res, next) => {
 })
 
 // 付款
-router.post('/payment', (req, res, next) => {
+router.post('/createOrder', (req, res, next) => {
   const userId = req.cookies.userId;
   const addressId = req.body.addressId;
   const orderTotal = req.body.orderTotal;
@@ -322,10 +323,6 @@ router.post('/payment', (req, res, next) => {
     if (err) return Promise.reject(err);
   })
     .then(doc => {
-      doc.wallet -= orderTotal;
-      User.updateOne({ userId }, { $inc: { wallet: -orderTotal } }, (res, err) => {
-        console.log(res)
-      })
       let address = '';
       let goodsList = [];
       let orderId = `${Math.floor(Math.random() * 10)}${new Date().getTime()}${Math.floor(Math.random() * 10)}`;
@@ -343,7 +340,7 @@ router.post('/payment', (req, res, next) => {
         orderTotal,
         addressInfo: address,
         goodsList: goodsList,
-        orderStatus: '1',
+        orderStatus: '0',
         createDate,
       }
 
@@ -368,6 +365,26 @@ router.post('/payment', (req, res, next) => {
         }
       })
     })
+})
+
+router.post('/payment', (req, res, next) => {
+  User.updateOne({ userId }, { $inc: { wallet: -orderTotal } }, (res, err) => {
+    console.log(res)
+  })
+  User.update({ userId: req.body.userId, "orderList.orderId": req.body.orderId }, { $set: { "orderList.$.orderStatus": 1 } }, (err, doc)=> {
+    if (doc) {
+      return res.json({
+        status: '0',
+        msg: '付款成功',
+        result: doc
+      })
+    } else {
+      return res.json({
+        status: '1',
+        msg: '错误'
+      })
+    }
+  })
 })
 
 router.get("/user", (req, res, next) => {

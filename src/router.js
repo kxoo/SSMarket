@@ -10,6 +10,7 @@ import Address from './views/Address.vue';
 import FinishOrder from './views/FinishOrder.vue';
 import Order from './views/order.vue';
 import Board from './views/Board.vue';
+import Search from './views/Search.vue';
 
 Vue.use(Router);
 
@@ -52,9 +53,14 @@ export default new Router({
       component: Register,
     },
     {
-      path: '/list',
+      path: '/list/:id',
       name: 'Goods',
       component: Goods,
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search,
     },
     {
       path: '/cart',

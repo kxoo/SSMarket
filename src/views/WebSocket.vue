@@ -89,9 +89,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.socket.emit('send', this.dynamicValidateForm.data, (res) => {
-            console.log(123)
             if (typeof res === 'object' && res.error) {
-              console.log(123)
               Promise.reject(res.message ? res.message : '请求数据验证失败, 请联系管理员!');
             } else {
               Promise.resolve(res);

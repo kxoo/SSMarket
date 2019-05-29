@@ -1,6 +1,19 @@
 <template>
   <div>
-    <el-button type="text" @click="logout()" v-if="!toggle">登出</el-button>
+    <el-popover
+    v-if="!toggle"
+    placement="top-start"
+    title="我的资料"
+    width="200"
+    trigger="hover"
+    >
+    <div>
+      <div>用户名： {{name}}</div>
+      <div>账户余额： {{wallet}}元</div>
+    </div>
+    <el-button type="text" @click="logout()">登出</el-button>
+    <el-button type="text" slot="reference" @click="logout()">我的</el-button>
+  </el-popover>
     <el-button type="text" @click="dialogVisible = true" v-if="toggle">登陆/注册</el-button>
     <el-dialog
       title="登陆"
@@ -26,6 +39,7 @@ export default {
     return {
       toggle: true,
       userName: '',
+      name: '',
       userPwd: '',
       errorTip: false,
       dialogVisible: false,
@@ -33,6 +47,12 @@ export default {
   },
   mounted() {
     this.checkLogin();
+  },
+  computed: {
+    wallet() {
+      console.log(this.$store.state.status)
+      return this.$store.state.wallet
+    }
   },
   methods: {
     checkLogin() {
@@ -58,12 +78,15 @@ export default {
         .then((res) => {
           const data = res.data;
           if (data.status == '0') {
+            console.log(data)
             this.dialogVisible = false;
-            this.name = data.userName;
+            this.name = data.result.userName;
             this.toggle = false;
+            console.log(res.data.result.wallet)
+            this.$store.commit('set_wallet', res.data.result.wallet)
             this.userName = '';
             this.userPwd = '';
-            this.$router.go(0);
+            // this.$router.go(0);
           } else {
             this.$message({
               message: `登陆 失败, ${res.data.msg}`,
