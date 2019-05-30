@@ -74,15 +74,25 @@ export default {
       ],
     };
   },
-  updated() {
-    this.getGoodlist();
-  },
-  computed: {
-    type() {
-      console.log(this.$route.param.id)
-      return this.$route.param.id
+  watch: {
+  '$route'(to, from) { //监听路由是否变化
+		  if(to.params.id != from.params.id){
+        this.page = 1,
+        this.pageSize = 9,
+        this.priceChecked = {
+          startPrice: 0,
+          endPrice: 5000,
+        },
+			  this.getGoodlist();//重新加载数据
       }
+    }
   },
+  // computed: {
+  //   type() {
+  //     console.log(this.$route.param.id)
+  //     return this.$route.param.id
+  //     }
+  // },
   methods: {
     // 获取商品列表，根据前台指定的参数提交给数据库进行查询
     getGoodlist(next) {
@@ -101,7 +111,11 @@ export default {
       })
         .then((res) => {
           if (res.data.status === '0') {
-            if (res.data.result.count === 0) return this.toggle = false;
+            if (res.data.result.count === 0) {
+              this.goodList = []
+              return this.toggle = false;
+            }
+
             this.toggle = true;
             if (next) return this.goodList = this.goodList.concat(res.data.result.list);
             this.goodList = (res.data.result.list);

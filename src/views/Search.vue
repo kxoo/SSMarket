@@ -67,9 +67,6 @@ export default {
       dialogTableVisible: false,
     };
   },
-  // created() {
-  //   this.init();
-  // },
   watch: {
   '$route'(to, from) { //监听路由是否变化
 		  if(to.query.search != from.query.search){

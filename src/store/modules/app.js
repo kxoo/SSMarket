@@ -22,9 +22,12 @@ const app = {
     }
   },
   actions: {
-    SetLoading({ commit }, status) {
-      commit('SET_LOADING', status);
+    SetWallet({ commit }, status) {
+      commit('set_wallet', status);
     },
+    SetStatus({ commit }, status) {
+      commit('set_status', status)
+    }
   },
 };
 

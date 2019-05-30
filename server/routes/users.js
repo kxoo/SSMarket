@@ -374,20 +374,28 @@ router.post('/createOrder', (req, res, next) => {
 })
 
 router.post('/payment', (req, res, next) => {
-  User.updateOne({ userId }, { $inc: { wallet: -orderTotal } }, (res, err) => {
+  console.log(req.body)
+  User.updateOne({ userId: req.body.userId }, { $inc: { wallet: -req.body.orderTotal } }, (res, err) => {
+    if(err) {
+      console.log(err)
+    }
   })
   User.update({ userId: req.body.userId, "orderList.orderId": req.body.orderId }, { $set: { "orderList.$.orderStatus": '1' } }, (err, doc)=> {
+    console.log(doc)
     if (doc) {
-      return res.json({
+      res.json({
         status: '0',
         msg: '付款成功',
         result: doc
       })
     } else {
-      return res.json({
+      res.json({
         status: '1',
-        msg: '错误'
+        msg: '未找到相应的订单'
       })
+    }
+    if(err) {
+      console.log(err)
     }
   })
 })

@@ -41,7 +41,7 @@
       <el-input v-model="address.streetName" disabled></el-input>
     </el-form-item>
   </el-form>
-  <el-button @click="onPress()" v-if="!display">付款</el-button>
+  <el-button @click="onPress()" v-if="Number(display) === 0">付款</el-button>
   </div>
 </template>
 
@@ -61,8 +61,7 @@ export default {
   },
   computed: {
     display() {
-      console.log(this.$store.state.status)
-      return this.$store.state.status
+      return this.$store.state.app.status
     }
   },
   created() {
@@ -91,10 +90,18 @@ export default {
     onPress() {
       axios.post('users/payment', {
         userId: this.userId,
-        orderId: this.orderId
+        orderId: this.orderId,
+        orderTotal: String(this.total)
       })
       .then(res => {
-        this.$store.commit('set_wallet', res.data.result.wallet)
+        if(res.data.status === 1) {
+           this.$message({
+          message: `购买成功`,
+          type: 'danger'
+        });
+        }
+        this.$store.dispatch('SetWallet', this.$store.state.app.wallet - this.total)
+        this.$store.dispatch('SetStatus', 1)
         this.$message({
           message: `购买成功`,
         });

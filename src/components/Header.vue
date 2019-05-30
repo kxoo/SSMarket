@@ -29,15 +29,15 @@
         <el-menu-item class="space" index = "/list/all">所有商品</el-menu-item>
         <el-submenu index="1">
           <template slot="title">小球器具</template>
-          <el-menu-item index="/list/baseball">网球</el-menu-item>
-          <el-menu-item index="/list/棒球">棒球</el-menu-item>
+          <el-menu-item index="/list/tennis">网球</el-menu-item>
+          <el-menu-item index="/list/baseball">棒球</el-menu-item>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">大球器具</template>
           <el-menu-item index="/list/basketball">篮球</el-menu-item>
           <el-menu-item index="/list/football">橄榄球</el-menu-item>
         </el-submenu>
-        <el-menu-item index="/list/">配件</el-menu-item>
+        <el-menu-item index="/list/all">配件</el-menu-item>
         <el-menu-item index="/list/children">儿童</el-menu-item>
         <el-menu-item index="/webSocket" style="float: right"><el-button type="info" plain >在线咨询</el-button></el-menu-item>
         <el-menu-item index="/board" style="float: right"><el-button type="info" plain>公告</el-button></el-menu-item>
@@ -71,6 +71,9 @@ export default {
   methods: {
     onSubmit() {
       this.$router.push({ path: 'search', query: { search: this.input }})
+    },
+    onPress(id) {
+      this.$router.push({ path: 'list', query: { id: id }})
     }
   },
 };

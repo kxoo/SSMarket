@@ -30,7 +30,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -50,8 +49,7 @@ export default {
   },
   computed: {
     wallet() {
-      console.log(this.$store.state.status)
-      return this.$store.state.wallet
+      return this.$store.state.app.wallet
     }
   },
   methods: {
@@ -82,11 +80,9 @@ export default {
             this.dialogVisible = false;
             this.name = data.result.userName;
             this.toggle = false;
-            console.log(res.data.result.wallet)
-            this.$store.commit('set_wallet', res.data.result.wallet)
+            this.$store.dispatch('SetWallet', res.data.result.wallet)
             this.userName = '';
             this.userPwd = '';
-            // this.$router.go(0);
           } else {
             this.$message({
               message: `登陆 失败, ${res.data.msg}`,
