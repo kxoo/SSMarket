@@ -17,7 +17,7 @@
       width="180">
     </el-table-column>
     <el-table-column
-      prop="orderStatus"
+      prop="Status"
       label="状态">
     </el-table-column>
     <el-table-column
@@ -57,10 +57,13 @@ export default {
         .then((res) => {
           if (res.data.status === '0') {
             this.orderList = res.data.result;
+            console.log(res.data.result)
             if (!this.orderList) return Promise.reject();
             for (const [index, item] in res.data.result) {
-              if (this.orderList[index].orderStatus == 1) this.orderList[index].orderStatus = '完成';
-              if (this.orderList[index].orderStatus == 0) this.orderList[index].orderStatus = '未完成';
+              console.log(this.orderList[index])
+              console.log(Number(this.orderList[index].orderStatus))
+              if (Number(this.orderList[index].orderStatus) === 1) this.orderList[index].Status = '完成';
+              if (Number(this.orderList[index].orderStatus) === 0) this.orderList[index].Status = '未完成';
             }
 
           } else {

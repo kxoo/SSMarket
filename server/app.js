@@ -34,7 +34,6 @@ app.use(function (req, res, next) {
   if (req.cookies.userId || req.cookies.manageId) {
     next()
   } else {
-    console.log(req.path, req.originalUrl)
     if(req.originalUrl == '/users/login' ||
     req.originalUrl == '/users/logout' ||
     req.originalUrl == '/users/register' ||

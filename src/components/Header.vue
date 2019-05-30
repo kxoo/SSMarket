@@ -20,7 +20,7 @@
           <el-menu-item index="/cart" style="float: right">购物车</el-menu-item>
           <el-menu-item index="/order" style="float: right">我的订单</el-menu-item>
           <el-menu-item index ="" style="float: right"><Login></Login></el-menu-item>
-          <el-menu-item index='1' style="float: right">
+          <el-menu-item index = "search" style="float: right">
             <el-input v-model="input" name ="search" placeholder="搜索商品" @keyup.enter.native="onSubmit"></el-input>
           </el-menu-item>
         </el-menu>

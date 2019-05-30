@@ -1,13 +1,13 @@
 <template>
 <div>
-        <el-dialog :title="item.header" :visible.sync="dialogTableVisible">
-          <el-card style=" margin: 2px ; border: 0 " shadow="hover">
-            <div style="padding:6px 2px;">
-              <div class="item_price">{{item.content}}</div>
-            </div>
-          </el-card>
-      </el-dialog>
-        <el-table
+    <el-dialog :title="item.header" :visible.sync="dialogTableVisible">
+      <el-card style=" margin: 2px ; border: 0 " shadow="hover">
+        <div style="padding:6px 2px;">
+          <div class="item_price">{{item.content}}</div>
+        </div>
+      </el-card>
+    </el-dialog>
+    <el-table
     :data="tableData"
     stripe
     style="width: 100%">

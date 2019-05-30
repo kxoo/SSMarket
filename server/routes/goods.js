@@ -24,17 +24,26 @@ mongoose.connection.on("disconnected", function () {
 })
 
 router.get("/search", (req, res, next) => {
+  console.log(req.query.search)
+  if (!req.query.search) {
+    res.json({
+      status: '0',
+      msg: 'search',
+      result: null
+    })
+    return
+  }
   Goods.find({ $text: { $search: req.query.search } })
     .then(doc => {
       if (doc) {
-          return res.json({
+           res.json({
             status: '0',
             msg: 'search',
             result: doc
           })
       }
     })
-    .then(err => {
+    .catch(err => {
       console.log(err)
     })
 })
@@ -44,7 +53,6 @@ router.get('/getBoard', (req, res, next) => {
     .then(doc => {
       if (doc) {
         Board.updateOne({ time: doc[0].time }, { $inc: { reader: 1 } }, (res, err) => {
-          console.log(res)
         })
         res.json({
           status: '0',

@@ -266,7 +266,6 @@ router.post('/createAddress', (req, res, next) => {
       }
     },
     (err, doc) => {
-      console.log(err)
       if (err) {
         res.json({
           status: '1',
@@ -344,6 +343,13 @@ router.post('/createOrder', (req, res, next) => {
         createDate,
       }
 
+      for(let index in goodsList) {
+        // doc.cartList.pull({ productId: item.productId})
+        User.updateOne({ userId }, { $pull: { "cartList": {checked: 1} }}, (err,doc) => {
+          if(err) console.log(err)
+        })
+      }
+
       doc.orderList.push(args);
 
       doc.save((err, doc) => {
@@ -369,9 +375,8 @@ router.post('/createOrder', (req, res, next) => {
 
 router.post('/payment', (req, res, next) => {
   User.updateOne({ userId }, { $inc: { wallet: -orderTotal } }, (res, err) => {
-    console.log(res)
   })
-  User.update({ userId: req.body.userId, "orderList.orderId": req.body.orderId }, { $set: { "orderList.$.orderStatus": 1 } }, (err, doc)=> {
+  User.update({ userId: req.body.userId, "orderList.orderId": req.body.orderId }, { $set: { "orderList.$.orderStatus": '1' } }, (err, doc)=> {
     if (doc) {
       return res.json({
         status: '0',

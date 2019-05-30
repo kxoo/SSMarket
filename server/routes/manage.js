@@ -191,7 +191,6 @@ router.post("/reject", (req, res, next) => {
   userId = req.body.userId
   reject = req.body.reject
   User.updateOne({ userId }, { $inc: { wallet: reject } }, (res, err) => {
-    console.log(res)
   })
 })
 
