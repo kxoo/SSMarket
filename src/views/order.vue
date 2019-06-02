@@ -5,6 +5,7 @@
     <el-table-column
       prop="createDate"
       label="日期"
+      :formatter="dateFormat"
       width="180">
     </el-table-column>
     <el-table-column
@@ -39,7 +40,7 @@
 
 <script>
 import axios from 'axios';
-
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -52,6 +53,10 @@ export default {
     this.init();
   },
   methods: {
+    dateFormat(row, column) {
+      let time = new Date(row.createDate)
+      return moment(time).format("YYYY-MM-DD HH:mm"); ;
+    },
     init() {
       axios.get('users/order')
         .then((res) => {

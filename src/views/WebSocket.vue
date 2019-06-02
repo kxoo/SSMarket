@@ -49,7 +49,10 @@ export default {
 
     this.socket.on('receive', (data) => {
       if (!this.addDomain) return;
-      this.addDomain(JSON.stringify(data));
+      const message = JSON.stringify(data)
+      console.log(message)
+      // console.log(data)
+      this.addDomain(`${message}`);
     });
 
     this.socket.on('connect', () => {
@@ -81,7 +84,7 @@ export default {
     },
     addClient(item) {
       this.dynamicValidateForm.client.push({
-        value: `”我“:"${item}"`,
+        value: `"我":"${item}"`,
         key: Date.now(),
       });
     },
@@ -116,7 +119,7 @@ export default {
 .from
   position fixed
   left 0
-  bottom 400
+  // bottom 0
   width 100%
 
 .chat

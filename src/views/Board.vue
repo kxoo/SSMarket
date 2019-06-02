@@ -15,6 +15,9 @@
       type="index"
       width="150">
     </el-table-column>
+     <el-table-column
+      width="0">
+    </el-table-column>
     <el-table-column
       prop="header"
       label="标题"
@@ -22,12 +25,12 @@
       <template slot-scope="scope">
           <el-button
             size="mini"
-
             @click="board(scope.$index, scope.row)">{{scope.row.header}}</el-button>
         </template>
     </el-table-column>
     <el-table-column
       prop="time"
+      :formatter="dateFormat"
       label="发布时间"
       fixed="right"
       width="210"
@@ -40,6 +43,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment'
 
 export default {
   data() {
@@ -65,11 +69,11 @@ export default {
           console.log(e);
         });
     },
+     dateFormat(row, column) {
+      return moment(Number(row.time)).format("YYYY-MM-DD HH:mm:ss");
+    },
     board(index, row) {
-      console.log(row);
-
       this.item = row;
-      console.log(this.item);
       this.dialogTableVisible = true;
     },
 

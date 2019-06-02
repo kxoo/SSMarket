@@ -5,7 +5,7 @@ const productSchema = new Schema({
   "header": {type: String},
   "content": {type: String},
   "reader": {type: Number},
-  "time": {type:String}
+  "time": {type:Number}
 })
 
 module.exports = mongoose.model('board', productSchema)

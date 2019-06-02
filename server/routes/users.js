@@ -31,8 +31,8 @@ router.post("/register", (req, res, next) => {
     userName: req.body.name,
     userEmail: req.body.email,
     userTel: req.body.tel,
-    userPwd: req.body.pass,
-    // userAddress : req.body.address,
+    wallet: 12000,
+    userPwd: req.body.pass
   }
   User.findOne({ userName: params.userName })
     .then(doc => {
@@ -266,6 +266,7 @@ router.post('/createAddress', (req, res, next) => {
       }
     },
     (err, doc) => {
+      console.log(err)
       if (err) {
         res.json({
           status: '1',

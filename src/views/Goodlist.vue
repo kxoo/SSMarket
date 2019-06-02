@@ -87,6 +87,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getGoodlist()
+  },
   // computed: {
   //   type() {
   //     console.log(this.$route.param.id)

@@ -30,7 +30,7 @@ var Manage = require('../models/manages');
 router.post('/upload', upload.single('avatar'), (req, res, next) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
-
+console.log(req)
   res.json({
     status: '0',
     msg: '存在',
@@ -255,7 +255,7 @@ router.post('/editGood', (req, res, next) => {
 
 router.get('/boards', function (req, res, next) {
   // 查找数据库内容，通过mongoose api find() 查找，skip() limit(), 做出限制，获得指定的数据
-  let goodModel = Board.find()
+  let goodModel = Board.find().sort({ time: -1 })
   // goodsModel.sort({ 'salePrice': sort })
 
   // 执行查找之后，得到的数据作为doc，传递给前台系统，同样还能够将发生的错误报文传递
@@ -307,7 +307,7 @@ router.post("/addBoard", (req, res, next) => {
     header: req.body.header,
     content: req.body.content,
     reader: 0,
-    time: String(new Date()),
+    time: Number(new Date().getTime()),
   }
   const board = new Board(params)
   board.save()
@@ -322,13 +322,13 @@ router.post('/editBoard', (req, res, next) => {
     header: req.body.header,
     content: req.body.content,
     reader: 0,
-    time: String(new Date()),
+    time: Number(new Date().getTime()),
   }
   Board.findByIdAndUpdate(req.body._id, { $set: params } ,{}, function (err, docs) {
     if(err) {
       res.json({
-        status: '0',
-        msg: '存在',
+        status: '1',
+        msg: err,
         result: docs
       })
     }
